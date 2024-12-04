@@ -99,11 +99,11 @@ class OfficeRepository
             $office = Office::find($id);
             $office->qrcode = Str::random(40);
 
-            $filename = 'qrcode/office/' . $office->qrcode . '.png';
-            if (Storage::disk('public')->exists($filename)) {
-                Storage::disk('public')->delete($filename);
-            }
-            QrCode::format('png')->size(500)->generate($office->qrcode, public_path($filename));
+            // $filename = 'qrcode/office/' . $office->qrcode . '.png';
+            // if (Storage::disk('public')->exists($filename)) {
+            //     Storage::disk('public')->delete($filename);
+            // }
+            // QrCode::format('png')->size(500)->generate($office->qrcode, public_path($filename));
 
 
             // base64

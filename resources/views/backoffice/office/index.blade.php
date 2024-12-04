@@ -66,9 +66,9 @@
                                         <div class="card-tools">
 
                                             {{-- download qrcode --}}
-                                            <a href="/backoffice/office/{{ $office->id }}/download" class="btn btn-primary btn-sm">
+                                            {{-- <a href="/backoffice/office/{{ $office->id }}/download" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-download"></i> 
-                                            </a>
+                                            </a> --}}
 
                                             <a href="/backoffice/office/{{ $office->id }}/detail" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-eye"></i> 
