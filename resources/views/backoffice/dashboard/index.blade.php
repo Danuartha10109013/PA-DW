@@ -6,11 +6,11 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Absensi hari ini</h1>
+        <h1>Presensi Hari Ini</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item active">Absensi hari ini</li>
+          <li class="breadcrumb-item active">Presensi Hari Ini</li>
         </ol>
       </div>
     </div>
@@ -28,7 +28,7 @@
             <form action="/backoffice/dashboard" class="form-inline">
               <div class="pr-4" style="border-right: 3px solid #0d6efd">
                 <h3 class="card-title">
-                  <b>Absensi</b>
+                  <b>Presensi</b>
                 </h3>
               </div>
 
@@ -39,6 +39,7 @@
                 <label for="">Kategori: </label>
                 <select name="category" class="form-control ml-2">
                   <option value="">Hadir</option>
+                  <option value="wfh" {{ $category=='wfh' ? 'selected' : '' }}>WFH</option>
                   <option value="cuti" {{ $category=='cuti' ? 'selected' : '' }}>Cuti</option>
                   <option value="izin" {{ $category=='izin' ? 'selected' : '' }}>Izin</option>
                   <option value="sakit" {{ $category=='sakit' ? 'selected' : '' }}>Sakit</option>
@@ -77,17 +78,24 @@
           @endif
 
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="card bg-success">
                 <div class="card-body">
                   <h3>Hadir: <b>{{ $countAbsenToday }}</b> </h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+              <div class="card bg-success">
+                <div class="card-body">
+                  <h3>WFH: <b>{{ $countWFHToday }}</b></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
               <div class="card bg-danger">
                 <div class="card-body">
-                  <h3>Belum Hadir: <b>{{ $countUserNoAbsen }}</b> </h3>
+                  <h4>Belum Hadir: <b>{{ $countUserNoAbsen }}</b> </h4>
                 </div>
               </div>
             </div>
@@ -123,8 +131,8 @@
                   @if ($category)
                     <div class="search">
                       <div class="text-center">
-                        <h3>---
-                          <span class="fa fa-search"></span> Kategori Absen:
+                        <h3>
+                          <span class="fa fa-search"></span> Kategori Presensi:
                           @if ($category == 'cuti')
                           <b>Cuti</b>
                           @elseif ($category == 'izin')
@@ -133,24 +141,26 @@
                           <b>Sakit</b>
                           @elseif ($category == 'belum-hadir')
                           <b>Belum Hadir</b>
+                          @elseif ($category == 'wfh')
+                          <b>WFH</b>
                           @endif
-                        ---</h3>
+                        </h3>
                       </div>
                     </div>
                   @elseif ($category == null)
                     <div class="search">
                       <div class="text-center">
-                        <h3>---
-                          <span class="fa fa-search"></span> Kategori Absen: <b>Hadir</b>
-                        ---</h3>
+                        <h3>
+                          <span class="fa fa-list"></span> Kategori Presensi: <b>Hadir</b>
+                        </h3>
                       </div>
                     </div>
                   @endif
                 </div>
                 <div>
-                  <h2>--
+                  <h2>
                     <span class="fa fa-calendar-alt"></span> {{ \Carbon\Carbon::parse(now())->locale('id')->isoFormat('dddd, D MMMM YYYY') }} 
-                  --</h2>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -159,18 +169,18 @@
           <hr>
 
           <div class="table-responsive">
-            <table class="table table-bordered table-hover text-center" id="myTable">
+            <table class="table table-bordered table-hover text-center" id="example1">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>No</th>
                   <th>Karyawan</th>
                   @if ($category != 'belum-hadir')
-                    @if ($category == null)
+                    @if ($category == null || $category == 'wfh')
                       <th>Jam Masuk</th>
                       <th>Jam Pulang</th>
-                      <th>Shift</th>
+                      {{-- <th>Shift</th> --}}
                     @endif
-                    <th>Kantor</th>
+                    {{-- <th>Kantor</th> --}}
                   @endif
                     <th>Status</th>
                     <th>Keterangan</th>
@@ -200,25 +210,30 @@
                         </button>
                       @endif
                     </td>
-                    @if ($category == null)
+                    @if ($category == null || $category == 'wfh')
                       <td>{{ $absen->start }}</td>
                       <td>{{ $absen->end }}</td>
-                      <td>
+                      {{-- <td>
                         @if ($absen->shift_id == null)
                           -
                         @else
                           {{ $absen->shift->name }}
                         @endif
-                      </td>
+                      </td> --}}
                     @endif
-                    <td>
+                    {{-- <td>
                       @if ($absen->office_id)
                         {{ $absen->office->name }}
                       @endif
-                    </td>
+                    </td> --}}
                   @endif
                   <td>{{ $absen->status }}</td>
-                  <td>{{ $absen->description }}</td>
+                  <td>
+                    {{ $absen->description }}
+                    @if ($category == null || $category == 'wfh')
+                      {{ $absen->status_absent }}
+                    @endif
+                  </td>
                 @endforeach
               </tbody>
             </table>

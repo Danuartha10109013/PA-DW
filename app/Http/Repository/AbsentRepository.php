@@ -3,15 +3,16 @@
 namespace App\Http\Repository;
 
 use App\Models\Absent;
+use App\Models\Shift;
 use Illuminate\Support\Facades\Auth;
 
 class AbsentRepository
 {
-    public function getAll($data)
+    public function getAll($data)   
     {
         try {
 
-            $absents = Absent::orderBy('id', 'desc');
+            $absents = Absent::orderBy('date', 'desc')->where('status', '!=', 'tidak hadir');
 
             $bulan = $data->bulan;
             $tahun = $data->tahun;
@@ -20,7 +21,12 @@ class AbsentRepository
                 $absents->whereMonth('date', $bulan)->whereYear('date', $tahun);
             }
 
-            return $absents->get();
+            if (Auth::user()->role_id == 1) {
+                return $absents->get();
+            } else {
+                return $absents->where('user_id', Auth::user()->id)->get();
+            }
+
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -139,6 +145,24 @@ class AbsentRepository
         }
     }
 
+    public function getWFHToday()
+    {
+        try {
+            return Absent::whereDate('date', now()->format('Y-m-d'))->where('status', 'wfh')->get();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function countWFHToday()
+    {
+        try {
+            return Absent::whereDate('date', now()->format('Y-m-d'))->where('status', 'wfh')->count();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function getAbsenTodayByUserId()
     {
         try {
@@ -175,15 +199,24 @@ class AbsentRepository
         }
     }
 
-    public function jamMasuk($request, $office)
+    public function jamMasuk($request, $office, $getShift)
     {
         try {
+            $waktuMasuk = $getShift->start;
+            $timeValidasi = date('H:i:s', strtotime($waktuMasuk) + 600);
+
             $absen = new Absent;
             $absen->user_id = Auth::user()->id;
             $absen->office_id = $office->id;
-            $absen->shift_id = $request->shift_id;
+            $absen->shift_id = 1;
             $absen->start = now();
             $absen->status = 'hadir';
+            $absen->type = 'wfo';
+            if (now()->format('H:i:s') > $timeValidasi) {
+                $absen->status_absent = 'telat';
+            } else {
+                $absen->status_absent = 'tepat waktu';
+            }
             $absen->date = now()->format('Y-m-d');
             $absen->save();
             return $absen;
@@ -197,6 +230,76 @@ class AbsentRepository
         try {
             $absen = $this->getAbsenTodayByUserId(Auth::user()->id);
             $absen->end = now();
+            $absen->save();
+            return $absen;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function jamMasukWFH($request, $office, $getShift)
+    {
+        try {
+            $waktuMasuk = $getShift->start;
+            $timeValidasi = date('H:i:s', strtotime($waktuMasuk) + 600);
+
+            if ($request->status == "hadir") {
+                $absen = new Absent;
+                $absen->user_id = Auth::user()->id;
+                $absen->office_id = $office->id;
+                $absen->shift_id = 1;
+                $absen->start = now();
+                $absen->status = 'wfh';
+                $absen->type = 'wfh';
+                if (now()->format('H:i:s') > $timeValidasi) {
+                    $absen->status_absent = 'telat';
+                } else {
+                    $absen->status_absent = 'tepat waktu';
+                }
+                $absen->date = now()->format('Y-m-d');
+                $absen->save();
+                // dd($absen);
+                return $absen;
+            } elseif ($request->status == "izin") {
+                $absen = new Absent;
+                $absen->user_id = Auth::user()->id;
+                $absen->status = 'izin';
+                $absen->date = now()->format('Y-m-d');
+                $absen->save();
+                return $absen;
+            } elseif ($request->status == "tidak hadir") {
+                $absen = new Absent;
+                $absen->user_id = Auth::user()->id;
+                $absen->status = 'tidak hadir';
+                $absen->date = now()->format('Y-m-d');
+                $absen->save();
+                return $absen;
+            }
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function jamMasukWFHOri($request, $office, $getShift)
+    {
+        try {
+            $waktuMasuk = $getShift->start;
+            $timeValidasi = date('H:i:s', strtotime($waktuMasuk) + 600);
+
+            $absen = new Absent;
+            $absen->user_id = Auth::user()->id;
+            $absen->office_id = $office->id;
+            $absen->shift_id = 1;
+            $absen->start = now();
+            $absen->status = 'wfh';
+            $absen->type = 'wfh';
+            if (now()->format('H:i:s') > $timeValidasi) {
+                $absen->status_absent = 'telat';
+            } else {
+                $absen->status_absent = 'tepat waktu';
+            }
+            $absen->date = now()->format('Y-m-d');
             $absen->save();
             return $absen;
         } catch (\Throwable $th) {

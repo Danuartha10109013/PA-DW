@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <div class="form-group">
                                 <label style="color: black;">Kantor <span class="text-danger">*</span></label>
@@ -28,6 +28,22 @@
                                 oninvalid="this.setCustomValidity('Lokasi harus diisi')" oninput="this.setCustomValidity('')">{{ $office->address }}</textarea>
                                 @if($errors->has('address'))
                                 <small class="help-block" style="color: red">{{ $errors->first('address') }}</small>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label style="color: black;">Mulai <span class="text-danger">*</span></label>
+                                <input type="time"  name="start" class="form-control @if($errors->has('start')) is-invalid @endif" value="{{ $shift->start }}"
+                                required oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Mulai harus diisi')">
+                                @if($errors->has('start'))
+                                <small class="help-block" style="color: red">{{ $errors->first('start') }}</small>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label style="color: black;">Selesai <span class="text-danger">*</span></label>
+                                <input type="time"  name="end" class="form-control @if($errors->has('end')) is-invalid @endif" value="{{ $shift->end }}"
+                                required oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Selesai harus diisi')">
+                                @if($errors->has('end'))
+                                <small class="help-block" style="color: red">{{ $errors->first('end') }}</small>
                                 @endif
                             </div>
                         </div>

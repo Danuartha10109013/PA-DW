@@ -22,7 +22,7 @@
                             <b>Keterangan ditolak:</b> {{ $submission->status_description }}
                         </div>
                     @endif
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <div class="form-group">
                                 <label style="color: black;">Mulai Pengajuan <span class="text-danger">*</span></label>
@@ -58,6 +58,20 @@
                                 @if($errors->has('description'))
                                 <small class="help-block" style="color: red">{{ $errors->first('description') }}</small>
                                 @endif
+                            </div>
+                            @if ($submission->skd)
+                                <div class="form-group">
+                                    <label for="">Surat Keterangan Dokter saat ini:</label>
+                                    <a href="/backoffice/izin-sakit/{{ $submission->id }}/skd-preview" target="_blank" class="btn btn-danger btn-sm">
+                                        <span class="fa fa-file-pdf"></span>
+                                    </a>
+                                    {{ $submission->user->name . '-' . $submission->start_date . '-' . $submission->end_date . '-skd.pdf' }}
+                                </div>
+                            @endif
+                            <div class="form-group" id="skd">
+                                <label for="skd">Surat Keterangan Dokter</label>
+                                <input type="file" name="skd" class="form-control" accept="application/pdf">
+                                <small>Jika tipe pengajuan sakit, silahkan upload Surat Keterangan Dokter, jika surat sudah diupload, silahkan diabaikan</small>
                             </div>
                             @if ($submission->status == "Ditolak")
                                 <div class="form-inline">

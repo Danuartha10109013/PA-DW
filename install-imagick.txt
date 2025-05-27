@@ -1,0 +1,21 @@
+ImageMagick 	
+	1. install terlebih dahulu
+	2. tambahkan environment imagick
+		- klik windows
+		- cari environment -> klik
+		- klik environment variables
+		- menu system variables -> path -> klik -> edit
+		- klik new
+		- masukan path imagick ( biasanya ada di c/program file/imagick )
+		- contoh C:\Program Files\ImageMagick-7.1.1-Q16-HDRI ( sesuaikan jika beda )
+
+unzip php_imagick-3-7
+	1. masuk ke unzip php_imagick-3-7 tadi
+	2. cari file dengan nama php_imagick.dll
+	3. copy php_imagick.dll ke folder xampp -> php -> ext ( copas )
+	4. buka xampp -> menu apache klik config -> php ( php.ini ) klik
+	5. ctrl+f cari extension=zip
+	6. tekan enter setelah extension=zip
+	7. lalu ketik extension=php_imagick.dll
+	8. save ( ctrl + save )
+	9. restart apache ( klik start lalu stop / stop lalu start )

@@ -1,0 +1,350 @@
+@extends('backoffice.layout.main')
+
+@section('content')
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Presensi WFH Hari Ini</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Presensi WFH Hari Ini</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Presensi WFH</h3>
+                </div>
+                <div class="card-body">
+
+                    {{-- if validation error --}}
+                    {{ $errors->any() ? $errors->first() : '' }}
+
+                    @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" absent="alert">
+                        <strong class="ml-2 mr-2">Berhasil </strong> | {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" absent="alert">
+                        <strong class="ml-2 mr-2">Gagal </strong> | {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+
+                    <div class="row">
+                        
+                        {{-- <div class="col-md-4 mb-3">
+                            <form action="/backoffice/absent/store" method="POST">
+                                @csrf
+                                <div class="card card-outline card-primary bg-light">
+                                    <div class="card-body">
+
+                                        <input type="hidden" id="latitude" name="latitude" class="form-control">
+                                        <input type="hidden" id="longitude" name="longitude" class="form-control">
+
+                                        @if ($absentToday)
+                                            @if ($absentToday->status != 'Absen')
+                                                <select name="shift_id" class="form-control" disabled>
+                                                    <option value="">-- Tidak ada shift --</option>
+                                                </select>
+                                            @elseif ($absentToday->start)
+                                                <input type="text" name="shift_id" value="Shift {{ $absentToday->shift->name }} | {{ $absentToday->shift->start }} - {{ $absentToday->shift->end }}" disabled class="form-control">
+                                            @endif
+                                        @else
+                                            <select name="shift_id" class="form-control" required id="shift"
+                                                oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Pilihan shift harus diisi')">
+                                                <option value="">-- Pilihan Shift --</option>
+                                                @foreach ($shifts as $shift)
+                                                <option value="{{ $shift->id }}">Shift {{ $shift->name }} | {{ $shift->start }} - {{ $shift->end }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="card card-outline card-primary bg-light" style="height: 475px">
+                                    <div class="card-body">
+                                        <div class="wfo-choice">
+
+                                            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-3">
+                                                <div id="qr-reader" style="width:100%"></div>
+                                                <div id="qr-reader-results"></div>
+                                            </div>
+                                
+                                            <form action="/karyawan/absen" method="POST" id="form">
+                                                @csrf
+                                                <input type="hidden" name="qrcode" id="qrcode">
+                                            </form>
+                                
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($absentToday)
+                                    @if ($absentToday->start && !$absentToday->end)
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <span class="fa fa-sign-out"></span> Presensi Pulang
+                                        </button>
+                                    @elseif ($absentToday->end)
+                                        <button type="button" class="btn btn-success btn-block">
+                                            <span class="fa fa-check"></span> Anda Sudah Presensi
+                                        </button>
+                                    @elseif ($absentToday->status != 'Absen')
+                                        <button type="button" class="btn btn-success btn-block">
+                                            <span class="fa fa-check"></span> Anda sedang {{ $absentToday->status }}
+                                        </button>
+                                    @endif
+                                @else
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <span class="fa fa-sign-in"></span> Presensi Masuk
+                                    </button>
+                                @endif
+                            </form>
+                        </div> --}}
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="wfo-choice">
+                                
+                                <form action="/backoffice/wfh/wfh-store" method="POST" id="form">
+                                    @csrf
+
+                                    {{-- @if ($absentToday)
+                                        @if ($absentToday->status == 'hadir')
+                                            <input type="hidden" name="shift_id" value="{{ $absentToday->shift_id }}">
+                                            <input type="text" value="Shift {{ $absentToday->shift->name }} | {{ $absentToday->shift->start }} - {{ $absentToday->shift->end }}" disabled class="form-control">
+                                        @else
+                                            <input type="text" value="Anda sedang {{ $absentToday->status }}" disabled class="form-control">
+                                        @endif
+                                    @else
+                                        <select name="shift_id" class="form-control @if ($errors->has('shift_id')) is-invalid @endif" required id="shift"
+                                            oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Pilihan shift harus diisi')">
+                                            <option value="">-- Pilihan Shift --</option>
+                                            @foreach ($shifts as $shift)
+                                            <option value="{{ $shift->id }}">Shift {{ $shift->name }} | {{ $shift->start }} - {{ $shift->end }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('shift_id'))
+                                            <h5 class="text-danger">{{ $errors->first('shift_id') }}</small>
+                                        @endif
+                                    @endif --}}
+                                    
+                                    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-3">
+                                        <img src="{{ asset('images/favicon.jpg') }}" alt="qr-code" class="img-fluid rounded" style="width: 100%; height: 300px;">
+                                    </div>
+
+                                    @if ($absentToday)
+                                        @if ($absentToday->status == 'wfh')
+                                            <button type="button" class="btn btn-success btn-sm btn-block mt-2" data-toggle="modal"
+                                                data-target="#wfh-add" title="Tambah">
+                                                <h3>
+                                                    @if ($absentToday)
+                                                        @if ($absentToday->start && $absentToday->end)
+                                                            <i class="fa fa-check"></i> Anda Sudah Absen
+                                                        @else
+                                                            <i class="fa fa-sign-out"></i> Presensi Pulang
+                                                        @endif
+                                                    @else
+                                                        <i class="fa fa-sign-in"></i> Presensi Masuk
+                                                    @endif
+                                                </h3>
+                                            </button>
+                                            @include('backoffice.karyawan.absent.modal.wfh-add')
+                                        @else
+                                            <button type="button" class="btn btn-success btn-sm btn-block mt-2">
+                                                <h3>Anda sedang {{ $absentToday->status }}</h3>
+                                            </button>
+                                        @endif
+                                    @else
+                                        {{-- <button type="button" class="btn btn-success btn-sm btn-block mt-2" data-toggle="modal"
+                                            data-target="#wfh-add" title="Tambah">
+                                            <h3>
+                                                <i class="fa fa-sign-in"></i> Presensi Masuk
+                                            </h3>
+                                        </button>
+                                        @include('backoffice.karyawan.absent.modal.wfh-add') --}}
+
+                                        {{-- <div class="form-group">
+                                            <label style="color: black;">Nama <span class="text-danger">*</span></label>
+                                            <input type="text"  name="name" class="form-control @if($errors->has('name')) is-invalid @endif" placeholder="Nama" value="{{ old('name') }}"
+                                            required oninvalid="this.setCustomValidity('Nama harus diisi')"
+                                            oninput="this.setCustomValidity('')">
+                                            @if($errors->has('name'))
+                                            <small class="help-block" style="color: red">{{ $errors->first('name') }}</small>
+                                            @endif
+                                        </div> --}}
+
+                                        <hr>
+                                        
+                                        {{-- <form action="/backoffice/wfh/wfh-store" method="POST">
+                                        @csrf --}}
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Regular class session</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    @if ($absentToday)
+                                                        
+                                                    @else
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="form-group ml-4">
+                                                                <input type="radio" class="form-check-input" name="status" value="hadir" id="hadir" required>
+                                                                <label for="hadir">Hadir</label>
+                                                            </div>
+                                                            {{-- <div class="form-group">
+                                                                <input type="radio" class="form-check-input" name="status" value="hadir" id="terlambat" required>
+                                                                <label for="terlambat">Terlambat</label>
+                                                            </div> --}}
+                                                            {{-- <div class="form-group">
+                                                                <input type="radio" class="form-check-input" name="status" value="izin" id="izin" required>
+                                                                <label for="izin">Izin</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="radio" class="form-check-input" name="status" value="tidak hadir" id="tidak hadir" required>
+                                                                <label for="tidak hadir">tidak hadir</label>
+                                                            </div> --}}
+                                                        </div>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+
+                                            {{-- <button type="submit" class="btn btn-block btn-primary">
+                                                <i class="fa fa-save"></i> Save Changes
+                                            </button> --}}
+
+                                            <button type="button" class="btn btn-success btn-sm btn-block mt-2" data-toggle="modal"
+                                                data-target="#wfh-add" title="Tambah">
+                                                <h3>
+                                                    <i class="fa fa-sign-in"></i> Save Changes
+                                                </h3>
+                                            </button>
+                                            @include('backoffice.karyawan.absent.modal.wfh-add')
+                                        {{-- </form> --}}
+
+                                    @endif
+                                </form>
+                    
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card card-outline card-primary bg-primary">
+                                <div class="card-body">
+                                    <h3 class="text-center">
+                                        <b> {{ \Carbon\Carbon::parse(date('Y-m-d'))->locale('id')->isoFormat('dddd, D
+                                            MMMM YYYY') }}
+                                        </b>    
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card bg-success">
+                                        <div class="card-body">
+                                            <h3>Presensi Masuk</h3>
+
+                                            @if ($absentToday)
+                                                @if ($absentToday->status == 'wfh')
+                                                    {{ $absentToday->start }} | Status: {{ strtoupper($absentToday->status_absent) }}
+                                                @else
+                                                    Anda sedang {{ $absentToday->status }}
+                                                @endif
+                                            @else
+                                                Belum Presensi
+                                            @endif
+
+                                            {{-- @if ($absentToday)
+                                                @if ($absentToday->start == null)
+                                                    @if ($absentToday->status != 'hadir')
+                                                        Anda sedang {{ $absentToday->status }}
+                                                    @else
+                                                        Belum Presensi
+                                                    @endif
+                                                @else
+                                                    {{ $absentToday->start }}
+                                                @endif
+                                            @else
+                                                Belum Presensi
+                                            @endif --}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-warning">
+                                        <div class="card-body">
+                                            <h3>Presensi Pulang</h3>
+
+                                            @if ($absentToday)
+                                                @if ($absentToday->status == 'wfh')
+                                                    @if ($absentToday->end == null)
+                                                        Belum Absen
+                                                    @else
+                                                        {{ $absentToday->end }}
+                                                    @endif
+                                                @else
+                                                    Anda sedang {{ $absentToday->status }}
+                                                @endif
+                                            @else
+                                                Belum Presensi
+                                            @endif
+
+                                            {{-- @if ($absentToday)
+                                                @if ($absentToday->end == null)
+                                                    @if ($absentToday->status != 'hadir')
+                                                    Anda sedang {{ $absentToday->status }}
+                                                @else
+                                                    Belum Presensi
+                                                @endif
+                                                @else
+                                                    {{ $absentToday->end }}
+                                                @endif
+                                            @else
+                                                Belum Presensi
+                                            @endif --}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-info">
+                                        <div class="card-body">
+                                            <h3>Status Presensi</h3>
+                                            @if ($absentToday)
+                                                {{ $absentToday->status }}
+                                            @else
+                                                Belum Presensi
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="map" style="height: 400px"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+@endsection

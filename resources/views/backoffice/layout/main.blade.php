@@ -1,184 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>ABSENSI PT ZEN</title>
-  <!-- loader-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/pace.min.css') }}" rel="stylesheet" />
-  <script src="{{ asset('assets/dashtreme-master/assets/js/pace.min.js') }}"></script>
-  <!--favicon-->
-  <link rel="icon" href="{{ asset('images/favicon.jpg') }}" type="image/x-icon">
-  <!-- Vector CSS -->
-  <link href="{{ asset('assets/dashtreme-master/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}"
-    rel="stylesheet" />
-  <!-- simplebar CSS-->
-  <link href="{{ asset('assets/dashtreme-master/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
-  <!-- Bootstrap core CSS-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-  <!-- animate CSS-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/animate.css') }}" rel="stylesheet" type="text/css') }}" />
-  <!-- Icons CSS-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/icons.css') }}" rel="stylesheet" type="text/css') }}" />
-  <!-- Sidebar CSS-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/sidebar-menu.css') }}" rel="stylesheet" />
-  <!-- Custom Style-->
-  <link href="{{ asset('assets/dashtreme-master/assets/css/app-style.css') }}" rel="stylesheet" />
-  {{-- Datatable --}}
-  {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" /> --}}
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.3/css/responsive.dataTables.min.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Presensi PT Zen</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- DataTables -->
-  {{-- <link rel="stylesheet" href="{{ asset('assets/dashtreme-master/assets/css/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/dashtreme-master/assets/css/datatables-responsive/css/responsive.bootstrap4.min.css') }}"> --}}
+  {{-- icon web --}}
+  <link rel="icon" type="image/png" href="{{ asset('images/logo.jpeg') }}">
 
-  {{-- FontAwesome --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <!-- Font Awesome -->
+  {{-- <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/fontawesome-free/css/all.min.css') }}"> --}}
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+
+  {{-- summernote --}}
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset('assets/adminlte/dist/css/adminlte.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  {{-- leaflet --}}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+
+  {{-- leaflet --}}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+
+  <style>
+    /* #map{
+      height: 400px;
+    } */
+  </style>
+
 </head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  
+    @include('backoffice.layout.navbar')
 
-<body class="bg-theme bg-theme1">
-
-  <!-- Start wrapper-->
-  <div id="wrapper">
-
-    <!--Start sidebar-wrapper-->
     @include('backoffice.layout.sidebar')
-    <!--End sidebar-wrapper-->
 
-    <!--Start topbar header-->
-    @include('backoffice.layout.header')
-    <!--End topbar header-->
+    <div class="content-wrapper ">
 
-    <div class="clearfix"></div>
-
-    <div class="content-wrapper">
-      <div class="container-fluid">
-
-        <!--Start Dashboard Content-->
-
-        @yield('content')
-
-        <!--End Dashboard Content-->
-
-        <!--start overlay-->
-        <div class="overlay toggle-menu"></div>
-        <!--end overlay-->
-
+      {{-- @if (Auth::user()->role_id == 4)
+      <div class="card card-outline card-primary mt-2">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-2 fakultas ">
+                    <h5>
+                        Fakultas: <b>{{ auth()->user()->fakultas->fakultas }}</b>
+                    </h5>
+                </div>
+                <div class="col-md-2 jurusan ">
+                    <h5>
+                        Jurusan: <b>{{ auth()->user()->jurusan->jurusan }}</b>
+                    </h5>
+                </div>
+                <div class="col-md-2 prodi ">
+                    <h5>
+                        Program Studi: <b>{{ auth()->user()->programStudi->program_studi }}</b>
+                    </h5>
+                </div>
+                <div class="col-md-4 tahunAkademik ">
+                    <h5>
+                        Tahun Akademik: <b>{{ auth()->user()->tahunAkademik->tahun_akademik }} / {{ auth()->user()->tahunAkademik->semester }}</b>
+                    </h5>
+                </div>
+                <div class="col-md-2 semester">
+                    <h5>
+                        Semester: <b>{{ auth()->user()->semester }}</b>
+                    </h5>
+                </div>
+            </div>
+        </div>
       </div>
-      <!-- End container-fluid-->
+      @endif --}}
+
+      {{-- @if (Auth::user()->jenis_kelamin == null || Auth::user()->agama == null 
+          || Auth::user()->alamat == null || Auth::user()->no_hp == null 
+          || Auth::user()->foto_profil == null)
+          @include('backoffice.layout.cek-profil')
+      @endif --}}
+
+      @yield('content')
 
     </div>
-    <!--End content-wrapper-->
-    <!--Start Back To Top Button-->
-    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-    <!--End Back To Top Button-->
 
-    <!--Start footer-->
     @include('backoffice.layout.footer')
 
-    <!--End footer-->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-light">
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
-    <!--start color switcher-->
-    <div class="right-sidebar">
-      <div class="switcher-icon">
-        <i class="fa fa-cog fa-spin"></i>
-      </div>
-      <div class="right-sidebar-content">
+<!-- jQuery -->
+<script src="{{ asset('assets/adminlte/plugins/jquery/jquery.min.js') }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{asset('assets/adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('assets/adminlte/dist/js/adminlte.min.js') }}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{asset('assets/adminlte/dist/js/pages/dashboard.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('assets/adminlte/dist/js/demo.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('assets/adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('assets/adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('assets/adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
 
-        <p class="mb-0">Gaussion Texture</p>
-        <hr>
+<!-- include summernote css/js -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 
-        <ul class="switcher">
-          <li id="theme1"></li>
-          <li id="theme2"></li>
-          <li id="theme3"></li>
-          <li id="theme4"></li>
-          <li id="theme5"></li>
-          <li id="theme6"></li>
-        </ul>
+<script>
+  $('#description').summernote({
+    placeholder: 'Description',
+    tabsize: 2,
+    height: 400,
+  });
+</script>
 
-        <p class="mb-0">Gradient Background</p>
-        <hr>
+<script>
+  $('#description-edit').summernote({
+    placeholder: 'Description',
+    tabsize: 2,
+    height: 400,
+  });
+</script>
 
-        <ul class="switcher">
-          <li id="theme7"></li>
-          <li id="theme8"></li>
-          <li id="theme9"></li>
-          <li id="theme10"></li>
-          <li id="theme11"></li>
-          <li id="theme12"></li>
-          <li id="theme13"></li>
-          <li id="theme14"></li>
-          <li id="theme15"></li>
-        </ul>
+<!-- page script -->
+<script>
+  $(function () {
 
-      </div>
-    </div>
-    <!--end color switcher-->
+    //Initialize Select2 Elements
+    $('.select2').select2({
+      theme: 'bootstrap4'
+    })
 
-  </div>
-  <!--End wrapper-->
+    $("#example1").DataTable({
+      "responsive": false,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('assets/dashtreme-master/assets/js/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/dashtreme-master/assets/js/popper.min.js') }}"></script>
-  <script src="{{ asset('assets/dashtreme-master/assets/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
 
-  <!-- simplebar js -->
-  <script src="{{ asset('assets/dashtreme-master/assets/plugins/simplebar/js/simplebar.js') }}"></script>
-  <!-- sidebar-menu js -->
-  <script src="{{ asset('assets/dashtreme-master/assets/js/sidebar-menu.js') }}"></script>
-  <!-- loader scripts -->
-  <script src="{{ asset('assets/dashtreme-master/assets/js/jquery.loading-indicator.js') }}"></script>
-  <!-- Custom scripts -->
-  <script src="{{ asset('assets/dashtreme-master/assets/js/app-script.js') }}"></script>
-  <!-- Chart js -->
-
-  {{-- <script src="{{ asset('assets/dashtreme-master/assets/plugins/Chart.js/Chart.min.js') }}"></script> --}}
-
-  <!-- Index js -->
-  <script src="{{ asset('assets/dashtreme-master/assets/js/index.js') }}"></script>
-
-  <!-- DataTables -->
-  {{-- <script src="{{ asset('assets/dashtreme-master/assets/css/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('assets/dashtreme-master/assets/css/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('assets/dashtreme-master/assets/css/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-  <script src="{{ asset('assets/dashtreme-master/assets/css/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-  <script>
-    $(function () {
-      $("#myTable").DataTable({
-        "responsive": true,
-        "autoWidth": false,
+      $('.swalDefaultSuccess').click(function () {
+        Toast.fire({
+          icon: 'success',
+          title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
       });
     });
-  </script> --}}
+</script>
 
-  {{-- Datatable --}}
-  {{-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-  <script>
-    $('#myTable').DataTable( {
-      responsive: true
-    });
-  </script> --}}
+{{-- review foto profil --}}
+<script>
+  function previewFotoProfil() {
+      const fotoProfil = document.querySelector('#foto_profil')
+      const fotoPreviewProfil = document.querySelector('.foto_profil')
 
-  {{-- Datatable --}}
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.5.3/js/dataTables.responsive.min.js"></script>
-  <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            responsive: true
-        });
-    });
-  </script>
+      fotoPreviewProfil.style.display = 'block'
+      fotoPreviewProfil.style.width = '150px'
+      fotoPreviewProfil.style.height = '150px'
+
+      const oFReader = new FileReader()
+      oFReader.readAsDataURL(fotoProfil.files[0])
+
+      oFReader.onload = function(oFREvent) {
+        fotoPreviewProfil.src = oFREvent.target.result
+      }
+  }
+</script>
+
+
+{{-- review foto --}}
+<script>
+  function preview() {
+      const foto = document.querySelector('#foto')
+      const fotoPreview = document.querySelector('.foto')
+
+      fotoPreview.style.display = 'block'
+      fotoPreview.style.width = '200px'
+      fotoPreview.style.height = '150px'
+
+      const oFReader = new FileReader()
+      oFReader.readAsDataURL(foto.files[0])
+
+      oFReader.onload = function(oFREvent) {
+          fotoPreview.src = oFREvent.target.result
+      }
+  }
+</script>
 
 </body>
-
 </html>

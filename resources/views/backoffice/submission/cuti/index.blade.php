@@ -84,13 +84,18 @@
                         </form>
     
                         <div class="card-tools">
-                            @if (auth()->user()->role_id != 1)
+                            {{-- @if (auth()->user()->role_id != 1)
                                 <button title="Tambah" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#tambah">
                                     <span class="fa fa-plus"></span> Ajukan Cuti
                                 </button>
                                 @include('backoffice.submission.cuti.modal.add')
+                            @endif --}}
+                            @if (auth()->user()->role_id == 1)
+                                <button title="Tambah" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#tambah">
+                                    <span class="fa fa-plus"></span> Tambah Cuti
+                                </button>
+                                @include('backoffice.submission.cuti.modal.add')
                             @endif
-    
                             
                         </div>
                     </div>
@@ -114,7 +119,15 @@
                     @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" submission="alert">
                         <strong class="ml-2 mr-2">Berhasil </strong> | {{ session('success') }}
-                        <button type="button" class="close" style="margin-top: -20px;" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" submission="alert">
+                        <strong class="ml-2 mr-2">Gagal </strong> | {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -173,10 +186,10 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover text-center" id="myTable">
+                        <table class="table table-bordered table-hover text-center" id="example1">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     @if (auth()->user()->role_id == 1)
                                         <th>Karyawan</th>
                                     @endif
@@ -222,7 +235,8 @@
                                         @if ($submission->status == "Pengajuan")
                                             <div class="d-flex justify-content-center">
                                                 <h5 class="mr-1">
-                                                    <span class="badge badge-warning"> <i class="fa fa-clock"></i> Pengajuan</span>
+                                                    {{-- <span class="badge badge-warning"> <i class="fa fa-clock"></i> Pengajuan</span> --}}
+                                                    <span class="badge badge-warning"> <i class="fa fa-spin fa-spinner"></i> Pending</span>
                                                 </h5>
                                                 @if ($submission->status_description)
                                                     | <button class="badge badge-light ml-1" data-toggle="modal" data-target="#adjust-{{ $submission->id }}" title="Penyesuaian pengajuan">
@@ -249,11 +263,37 @@
                                         @if ($submission->user_id != null)
                                             @if (auth()->user()->role_id == 1)
                                                 @if ($submission->status == "Pengajuan")
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                    {{-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
                                                         <i class="fa fa-check"></i> Setuju
                                                     </button>
                                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject-{{ $submission->id }}" title="Tolak">
                                                         <i class="fa fa-times"></i> Tolak
+                                                    </button> --}}
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit-{{ $submission->id }}" title="Ubah">
+                                                        <i class="fa fa-edit"></i>
+                                                        @if ($submission->status == "Pengajuan")
+                                                            
+                                                        @elseif ($submission->status == "Ditolak")
+                                                            Sesuaikan
+                                                        @endif
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-{{ $submission->id }}" title="Hapus">
+                                                        <i class="fa fa-trash"></i> 
+                                                    </button>
+                                                @elseif ($submission->status == "Ditolak")
+                                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit-{{ $submission->id }}" title="Ubah">
+                                                        <i class="fa fa-edit"></i>
+                                                        @if ($submission->status == "Pengajuan")
+                                                            
+                                                        @elseif ($submission->status == "Ditolak")
+                                                            Sesuaikan
+                                                        @endif
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-{{ $submission->id }}" title="Hapus">
+                                                        <i class="fa fa-trash"></i> 
                                                     </button>
                                                 @endif
                                             @else

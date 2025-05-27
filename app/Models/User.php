@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -67,4 +68,22 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Office::class, 'office_id', 'id');
     }
+
+    // get count cuti per tahun
+    public static function countCutiPerTahun($userId,$tahun)
+    {
+        return Submission::where('user_id', $userId)
+            ->where('type', 'cuti')
+            ->where('status', 'Disetujui')
+            ->whereYear('start_date', $tahun)
+            ->sum('total_day');
+    }
+
+    // public static function countCutiPerTahun($tahun)
+    // {
+    //     return Submission::where('user_id', Auth::user()->id)
+    //         ->where('type', 'cuti')
+    //         ->whereYear('start_date', $tahun)
+    //         ->count();
+    // }
 }

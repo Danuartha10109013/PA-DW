@@ -11,13 +11,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="card bg-primary" style="color: black">
+                    <div class="card card-outline card-primary" style="color: black">
                         <div class="card-body">
                             <div class="callout callout-info">
                                 <b>Keterangan ditolak:</b>
                                 {{ $submission->status_description }}
                             </div>
-                            @if (auth()->user()->role_id == 1)
+                            {{-- @if (auth()->user()->role_id == 1)
                                 <div class="callout callout-warning">
                                     <b>Ubah keterangan:</b>
                                     <textarea name="status_description" class="form-control" placeholder="Masukan alasan tolak pengajuan jika akan diubah"
@@ -26,7 +26,7 @@
                                         <i class="fa fa-edit"></i> Ubah keterangan
                                     </button>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,15 @@ class UserRepository
         }
     }
 
+    public function getAllEmployee()
+    {
+        try {
+            return User::where('role_id', '!=', 1)->get();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function customGetAll($request)
     {
         try {
@@ -75,10 +84,15 @@ class UserRepository
 
             $user = new User();
             $user->name = $request->name;
+            $user->nik = $request->nik;
+            $user->position = $request->position;
+            $user->no_hp = $request->no_hp;
+            $user->tgl_masuk = $request->tgl_masuk;
+            $user->tgl_habis_kontrak = $request->tgl_habis_kontrak;
             $user->email = $request->email;
             $user->password = Hash::make($request->password); 
             $user->remember_token = Str::random(40);
-            $user->role_id = $request->role;
+            $user->role_id = 2;
             $user->save();
 
             Mail::to($user->email)->send(new VerifyMail($user, $password));
@@ -120,6 +134,8 @@ class UserRepository
         try {
             $user = User::find($id);
             $user->name = $request->name;
+            $user->nik = $request->nik;
+            $user->position = $request->position;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
             $user->place_birth = $request->place_birth;

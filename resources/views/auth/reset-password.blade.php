@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>ABSENSI PT ZEN</title>
+  <title>PRESENSI PT ZEN</title>
   <!-- loader-->
   <link href="{{ asset('assets/dashtreme-master/assets/css/pace.min.css') }}" rel="stylesheet" />
   <script src="{{ asset('assets/dashtreme-master/assets/js/pace.min.js') }}"></script>
@@ -24,7 +24,7 @@
 
 </head>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme bg-theme9">
 
   <!-- start loader -->
   <div id="pageloader-overlay" class="visible incoming">
@@ -53,7 +53,7 @@
         @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show d-flex" role="alert">
           <strong class="ml-2 mr-2">Gagal </strong> | {{ session('error') }}
-          <button type="button" class="close" style="margin-top: -17px" data-dismiss="alert" aria-label="Close">
+          <button type="button" class="close"  data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -62,7 +62,7 @@
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show d-flex" role="alert">
           <strong class="ml-2 mr-2">Berhasil </strong> | {{ session('success') }}
-          <button type="button" class="close" style="margin-top: -17px" data-dismiss="alert" aria-label="Close">
+          <button type="button" class="close"  data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -86,7 +86,7 @@
                   <i class="icon-lock"></i>
                 </div>
                 @if ($errors->has('password'))
-                  <small class="help-block" style="color: white">{{ $errors->first('password') }}</small>
+                  <small class="help-block" >{{ $errors->first('password') }}</small>
                 @endif
               </div>
             </div>
@@ -100,7 +100,7 @@
                   <i class="icon-lock"></i>
                 </div>
                 @if ($errors->has('password_confirmation'))
-                  <small class="help-block" style="color: white">{{ $errors->first('password_confirmation') }}</small>
+                  <small class="help-block" >{{ $errors->first('password_confirmation') }}</small>
                 @endif
               </div>
             </div>

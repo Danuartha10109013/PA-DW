@@ -17,7 +17,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             @if ($submission->status == "Ditolak")
                                 <div class="callout callout-info">

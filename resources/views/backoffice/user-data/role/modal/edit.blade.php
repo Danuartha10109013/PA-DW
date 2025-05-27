@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <div class="form-group">
                                 <label style="color: black;">Peran <span class="text-danger">*</span></label>

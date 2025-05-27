@@ -21,7 +21,7 @@
             {{-- show error validation --}}
             {{ $errors->any() ? $errors->first() : '' }}
 
-            <form role="form" method="POST" action="/backoffice/user-data/user/{{ $user->id }}/update-password" enctype="multipart/form-data">
+            <form role="form" method="POST" action="/backoffice/user/{{ $user->id }}/update-password" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Ubah Password</h5>
@@ -38,7 +38,7 @@
                         </button>
                     </div>
                     @endif
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="password_sekarang">Password Sekarang <span class="text-danger">*</span></label>

@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="card bg-primary">
+                <div class="card" style="background-color: #33ccff; color: black">
                     <div class="card-body">
                         <div class=" text-center">
                             <label for="foto">Foto</label>

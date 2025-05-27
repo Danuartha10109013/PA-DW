@@ -2,15 +2,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color: black">Terima Pengajuan</h4>
+                <h4 class="modal-title" style="color: black">Konfirmasi Pengajuan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card bg-primary">
+                <div class="card card-outline card-primary">
                     <div class="card-body">
-                        <p style="color:black;">Apakah anda yakin setujui pengajuan?</p>
+                        <p style="color:black;">Apakah anda yakin konfirmasi pengajuan?</p>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <i class="fas fa-arrow-left"></i> Kembali
                 </button>
                 <a href="/backoffice/izin-sakit/{{ $submission->id }}/confirm" class="btn btn-success">
-                    <i class="fas fa-check"></i> Setuju
+                    <i class="fas fa-check"></i> Konfirmasi
                 </a>
             </div>
         </div>

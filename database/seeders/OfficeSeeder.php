@@ -13,12 +13,11 @@ class OfficeSeeder extends Seeder
      */
     public function run(): void
     {
-
         DB::table('offices')->insert([
             [
-                'name' => 'Office 1',
-                'address' => 'Jl. Office 1',
-                'qrcode' => '48SCTr6Y9wWsFxsE6DXMQtMT20gfaucfoX3UHjSI',
+                'name' => 'PT. ZEN MULTIMEDIA INDONESIA',
+                'address' => 'Jl. Taman Pahlawan No.166, Purwamekar, Kec. Purwakarta, Kabupaten Purwakarta, Jawa Barat 41119',
+                'qrcode' => 'qWrsUjQkygjoflKiF3O9qaKEthMvUp7Kk7Wb9Gvn',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

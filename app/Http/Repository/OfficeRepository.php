@@ -12,7 +12,7 @@ class OfficeRepository
     public function getAll()
     {
         try {
-            return Office::orderBy('id', 'desc')->get();
+            return Office::orderBy('id', 'desc')->first();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -93,23 +93,14 @@ class OfficeRepository
         }
     }
 
-    public function generate($id)
+    public function generate()
     {
         try {
-            $office = Office::find($id);
+            $office = Office::first();
+            Storage::disk('public')->delete('qrcode/' . $office->qrcode . '.png');
             $office->qrcode = Str::random(40);
-
-            // $filename = 'qrcode/office/' . $office->qrcode . '.png';
-            // if (Storage::disk('public')->exists($filename)) {
-            //     Storage::disk('public')->delete($filename);
-            // }
-            // QrCode::format('png')->size(500)->generate($office->qrcode, public_path($filename));
-
-
-            // base64
-            // $qrcode = QrCode::format('png')->generate($office->qrcode);
-            // Storage::disk('public')->put('qrcode/office/' . $office->qrcode . '.png', $qrcode);
-
+            $qrcode = QrCode::format('png')->size(500)->generate($office->qrcode);
+            Storage::disk('public')->put('qrcode/' . $office->qrcode . '.png', $qrcode);
             $office->save();
 
             return $office;
@@ -118,13 +109,14 @@ class OfficeRepository
         }
     }
 
-    public function download($id)
+    public function download()
     {
         try {
-            $office = Office::find($id);
+            $office = Office::first();
             
             // public path
-            QrCode::format('png')->size(500)->generate($office->qrcode, public_path('qrcode/office/' . $office->qrcode . '.png'));
+            QrCode::format('png')->size(400)->generate('http://127.0.0.1:8000/qrcode/' . $office->qrcode . '.png', public_path('qrcode/office/' . $office->qrcode . '.png'));
+            // QrCode::format('png')->size(400)->generate($office->qrcode, public_path('qrcode/office/' . $office->qrcode . '.png'));
             
             
             // $qrcode = QrCode::size(500)->generate($office->qrcode);

@@ -1,4 +1,4 @@
-<div class="modal fade" id="generate-{{ $office->id }}">
+<div class="modal fade" id="generate">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card bg-primary">
+                <div class="card card-outline card-primary">
                     <div class="card-body">
                         <p>Apakah anda yakin ingin generate ulang qrcode?</p>
                     </div>
@@ -18,7 +18,7 @@
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <i class="fas fa-arrow-left"></i> Kembali
                 </button>
-                <a href="/backoffice/office/{{ $office->id }}/generate" class="btn btn-danger">
+                <a href="/backoffice/office/generate" class="btn btn-danger">
                     <i class="fas fa-qrcode"></i> Generate
                 </a>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Repository\OfficeRepository;
 use App\Http\Repository\RoleRepository;
 use App\Http\Repository\UserRepository;
 use App\Http\Requests\User\CreateRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,9 +25,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->userRepository->customGetAll($request);
+        // $users = $this->userRepository->customGetAll($request);
+        $users = $this->userRepository->getAllEmployee();
         $offices = $this->officeRepository->getAll();
-        return view('backoffice.user-data.user.index', $users, compact('offices'));
+        // return view('backoffice.user-data.user.index', $users, compact('offices'));
+        return view('backoffice.user-data.user.index', compact('users', 'offices'));
     }
 
     public function create(CreateRequest $request)
@@ -34,7 +37,7 @@ class UserController extends Controller
 
         try {
             $user = $this->userRepository->store($request);
-            return redirect('/backoffice/user')->with('success', 'Data pengguna telah ditambahkan, beritahu ' . $user->name . ' untuk melakukan verifikasi akun');
+            return redirect('/backoffice/user')->with('success', 'Data karyawan telah ditambahkan, beritahu ' . $user->name . ' untuk melakukan verifikasi akun');
 
         } catch (\Throwable $th) {
             throw $th;
@@ -65,8 +68,6 @@ class UserController extends Controller
     public function updateData(Request $request, $id)
     {
         try {
-            // dd($request->all());
-
             $user = $this->userRepository->updateData($request, $id);
             return redirect()->back()->with('success', 'Data profil telah diubah');
         } catch (\Throwable $th) {
@@ -113,8 +114,15 @@ class UserController extends Controller
     public function updateByAdmin(Request $request, $id)
     {
         try {
-            $user = $this->userRepository->updateRole($request, $id);
-            return redirect()->back()->with('success', 'Data pengguna telah diubah');
+            // $user = $this->userRepository->updateRole($request, $id);
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->nik = $request->nik;
+            $user->position = $request->position;
+            $user->tgl_masuk = $request->tgl_masuk;
+            $user->tgl_habis_kontrak = $request->tgl_habis_kontrak;
+            $user->save();
+            return redirect()->back()->with('success', 'Data karyawan telah diubah');
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -124,7 +132,7 @@ class UserController extends Controller
     {
         try {
             $user = $this->userRepository->delete($id);
-            return redirect()->back()->with('success', 'Data pengguna telah dihapus');
+            return redirect()->back()->with('success', 'Data karyawan telah dihapus');
         } catch (\Throwable $th) {
             throw $th;
         }

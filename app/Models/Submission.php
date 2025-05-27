@@ -23,4 +23,13 @@ class Submission extends Model
     {
         return \Carbon\Carbon::parse($value)->locale('id')->isoFormat('dddd, D MMMM YYYY');
     }
+
+    // Fungsi untuk menghitung total cuti dalam setahun
+    public static function totalCutiTahunIni($userId, $tahun)
+    {
+        return self::where('user_id', $userId)
+            ->whereYear('start_date', $tahun)
+            ->count();
+            // ->sum('total_day');
+    }
 }

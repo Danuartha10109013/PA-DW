@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card bg-primary">
+                <div class="card card-outline card-primary">
                     <div class="card-body">
                         <p>Apakah anda yakin ingin menghapus {{ $office->name }}?</p>
                     </div>

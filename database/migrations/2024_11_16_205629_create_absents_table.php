@@ -22,6 +22,8 @@ return new class extends Migration
             $table->time('start')->nullable();
             $table->time('end')->nullable();
             $table->string('status');
+            $table->string('status_absent')->nullable();
+            $table->string('type')->nullable();
             $table->text('description')->nullable();
             $table->date('date');
             $table->timestamps();

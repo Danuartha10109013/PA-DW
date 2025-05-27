@@ -24,7 +24,7 @@
         <div class="col-md-12">
             
             <div class="card card-outline card-primary">
-                <div class="card-header" style="color: white">
+                <div class="card-header" >
                     <h3 class="card-title">Data</h3>
                     <div class="card-tools text-center">
                         {{-- <a href="/backoffice/user/{{ auth()->user()->id }}/edit-data" class="btn btn-tool btn-sm" title="Ubah Data">
@@ -81,6 +81,16 @@
                                     {{ $user->name }}
                                 </p>
                             </div>
+                            @if (auth()->user()->role_id == 2)
+                                <div class=" d-flex justify-content-between pl-4 pr-4">
+                                    <p>
+                                        <b>Nik:</b> 
+                                    </p>
+                                    <p>
+                                        {{ $user->nik }}
+                                    </p>
+                                </div>
+                            @endif                            
                             <div class=" d-flex justify-content-between pl-4 pr-4">
                                 <p>
                                     <b>Email:</b> 
@@ -113,6 +123,16 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            @if (auth()->user()->role_id == 2)
+                                <div class=" d-flex justify-content-between pl-4 pr-4">
+                                    <p>
+                                        <b>Jabatan:</b> 
+                                    </p>
+                                    <p>
+                                        {{ $user->position }}
+                                    </p>
+                                </div>
+                            @endif
                             <div class=" d-flex justify-content-between pl-4 pr-4">
                                 <p>
                                     <b>Agama:</b> 

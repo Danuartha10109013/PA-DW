@@ -6,11 +6,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Absensi</h1>
+          <h1>Data Presensi</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Absensi</li>
+            <li class="breadcrumb-item active">Data Presensi</li>
           </ol>
         </div>
       </div>
@@ -29,7 +29,7 @@
                         <form action="" class="form-inline">
                             <div class="pr-4" style="border-right: 3px solid #0d6efd">
                                 <h3 class="card-title">
-                                    <b>Absensi</b>
+                                    <b>Data Presensi</b>
                                 </h3>
                             </div>
 
@@ -74,14 +74,23 @@
 
                             @if ($bulan)
                                 <div class="input-group ml-2">
-                                    <a href="/backoffice/absent" class="btn btn-primary btn-sm">
+                                    <a href="/backoffice/absensi" class="btn btn-primary btn-sm">
                                         <i class="fas fa-sync-alt"></i>
                                     </a>
                                 </div>
                             @endif
 
+                            @if ($bulan && $tahun)
+                                <a href="/backoffice/absensi/pdf/{{ $bulan }}/{{ $tahun }}" class="btn btn-danger btn-sm ml-2" target="_blank">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                            @else
+                                <a href="/backoffice/absensi/pdf" class="btn btn-danger btn-sm ml-2" target="_blank">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                            @endif
+
                         </form>
-    
                         
                     </div>
 
@@ -145,7 +154,7 @@
                                 </div>
                                 <div class="">
                                     <h5>
-                                        Hadir: <b>
+                                        Hadir WFO: <b>
                                             {{ $hadir }} 
                                             @if (auth()->user()->role_id == 1)
                                              Orang   
@@ -165,7 +174,11 @@
                                             @if (auth()->user()->role_id == 1)
                                              Orang   
                                             @endif
-                                        </b>
+                                        </b> |
+                                        Hadir WFH: <b>{{ $wfh }}</b>
+                                            @if (auth()->user()->role_id == 1)
+                                                Orang
+                                            @endif
                                     </h5>
                                 </div>
                             </div>
@@ -175,20 +188,110 @@
 
                     @endif
 
+                    @if (auth()->user()->role_id == 2)
+                        @if ($bulan && $tahun)
+                            <div class="text-center">
+                                <h3>-- Rekap Presensi {{ $user->name }} Bulan 
+                                    @if ($bulan == '01')
+                                        Januari
+                                    @elseif ($bulan == '02')
+                                        Februari
+                                    @elseif ($bulan == '03')
+                                        Maret
+                                    @elseif ($bulan == '04')
+                                        April
+                                    @elseif ($bulan == '05')
+                                        Mei
+                                    @elseif ($bulan == '06')
+                                        Juni
+                                    @elseif ($bulan == '07')
+                                        Juli
+                                    @elseif ($bulan == '08')
+                                        Agustus
+                                    @elseif ($bulan == '09')
+                                        September
+                                    @elseif ($bulan == '10')
+                                        Oktober
+                                    @elseif ($bulan == '11')
+                                        November
+                                    @elseif ($bulan == '12')
+                                        Desember
+                                    @endif
+                                    {{ date('Y', strtotime($startDate)) }} --</h3>
+                            </div>
+                            <table class="table table-bordered table-hover table-responsive text-center mb-2">
+                                <thead>
+                                    <tr>
+                                        @for ($i = $startDate; $i <= $endDate; $i++)
+                                            <th>{{ date('d', strtotime($i)) }}</th>
+                                        @endfor
+                                        <th>hadir wfo</th>
+                                        <th>sakit</th>
+                                        <th>izin</th>
+                                        <th>cuti</th>
+                                        <th>hadir wfh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for ($i = $startDate; $i <= $endDate; $i++)
+                                        <td>
+                                            @foreach ($user->absents as $absent)
+                                                @if (date('Y-m-d', strtotime($absent->date)) == $i)
+                                                    @if ($absent->status == 'hadir')
+                                                        H
+                                                    @elseif ($absent->status == 'izin')
+                                                        I
+                                                    @elseif ($absent->status == 'sakit')
+                                                        S
+                                                    @elseif ($absent->status == 'cuti')
+                                                        C
+                                                    @elseif ($absent->status == 'wfh')
+                                                        W
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    @endfor
+
+                                    <td>
+                                        {{ $user->absents->where('status', 'hadir')->whereBetween('date', [$startDate, $endDate])->count() }}
+                                    </td>
+                                    <td>
+                                        {{ $user->absents->where('status', 'sakit')->whereBetween('date', [$startDate, $endDate])->count() }}
+                                    </td>
+                                    <td>
+                                        {{ $user->absents->where('status', 'izin')->whereBetween('date', [$startDate, $endDate])->count() }}
+                                    </td>
+                                    <td>
+                                        {{ $user->absents->where('status', 'cuti')->whereBetween('date', [$startDate, $endDate])->count() }}
+                                    </td>
+                                    <td>
+                                        {{ $user->absents->where('status', 'wfh')->whereBetween('date', [$startDate, $endDate])->count() }}
+                                    </td>
+                                </tbody>
+                            </table>
+                            <div class="mt-2">
+                                <div class="text-center">
+                                    <h5>Keterangan: H = Hadir WFO, S = Sakit, I = Izin, C = Cuti, W = Hadir WFH</h5>
+                                </div>
+                            </div>
+                        @endif
+                        <hr>
+                    @endif
+
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover text-center" id="myTable">
+                        <table class="table table-bordered table-hover text-center" id="example1">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     @if (auth()->user()->role_id == 1)
                                         <th>Karyawan</th>
                                     @endif
                                     <th>Tanggal</th>
-                                    <th>Kantor</th>
-                                    <th>Shift</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
                                     <th>Status</th>
+                                    <th>Metode Presensi</th>
                                     {{-- <th>Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -215,19 +318,19 @@
                                     <td>
                                         {{  \Carbon\Carbon::parse($absent->date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}
                                     </td>
-                                    <td>
-                                        @if ($absent->office_id)
-                                            {{ $absent->office->name }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($absent->shift_id)
-                                            {{ $absent->shift->name }} | {{ $absent->shift->start }} - {{ $absent->shift->end }}
-                                        @endif
-                                    </td>
                                     <td>{{ $absent->start }}</td>
                                     <td>{{ $absent->end }}</td>
-                                    <td>{{ $absent->status }}</td>
+                                    <td>
+                                        @if ($absent->status == 'wfh')
+                                            hadir
+                                        @else
+                                            {{ $absent->status }}
+                                        @endif
+                                        @if ($absent->status_absent)
+                                            | {{ $absent->status_absent }}
+                                        @endif
+                                        </td>
+                                    <td>{{ $absent->type }}</td>
                                     {{-- <td>
                                         <a href="/backoffice/absent/{{ $absent->id }}/detail" class="btn btn-sm btn-primary">
                                             <i class="fa fa-eye"></i> Detail

@@ -46,11 +46,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'absen'], function () {
             Route::get('/', [AbsentController::class, 'create']);
             Route::post('/store', [AbsentController::class, 'store']);
+            Route::post('/home-early', [AbsentController::class, 'homeEarly']); 
+        });
+
+        // grup wfh
+        Route::group(['prefix' => 'wfh'], function () {
+            Route::get('/', [AbsentController::class, 'wfhCreate']);
+            // Route::get('/wfh-store', [AbsentController::class, 'wfhStore']);
+
+            // revisi
+            Route::post('/wfh-store', [AbsentController::class, 'wfhStore']);
         });
 
         // grup absensi
         Route::group(['prefix' => 'absensi'], function () {
             Route::get('/', [AbsentController::class, 'index']);
+            Route::get('/pdf/{bulan}/{tahun}', [AbsentController::class, 'pdfBulanTahun']);
+            Route::get('/pdf', [AbsentController::class, 'pdf']);
 
             // grup absensi_id
             Route::group(['prefix' => '{absensi_id}'], function () {
@@ -58,6 +70,13 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/delete', [AbsentController::class, 'delete']);
                 Route::get('/detail', [AbsentController::class, 'detail']);
             });
+        });
+
+        // grup report
+        Route::group(['prefix' => 'report'], function () {
+            Route::get('/', [AbsentController::class, 'report']);
+            Route::get('/pdf/{bulan}/{tahun}', [AbsentController::class, 'reportPdfBulanTahun']);
+            Route::get('/pdf', [AbsentController::class, 'reportPdf']);
         });
 
         // grup cuti
@@ -91,6 +110,24 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::put('/reject', [SubmissionController::class, 'rejectIzinSakit']);
                 Route::put('/adjust', [SubmissionController::class, 'adjustIzinSakit']);
                 Route::put('/update-status-description', [SubmissionController::class, 'updateStatusDescriptionIzinSakit']);
+                Route::get('/skd-preview', [SubmissionController::class, 'skdPreview']);
+            });
+        });
+
+        // grup wfh
+        Route::group(['prefix' => 'data-wfh'], function () {
+            Route::get('/', [SubmissionController::class, 'wfh']);
+            Route::post('/store', [SubmissionController::class, 'storeWfh']);
+
+            // grup wfh_id
+            Route::group(['prefix' => '{wfh_id}'], function () {
+                Route::get('/edit', [SubmissionController::class, 'editWfh']);
+                Route::put('/update', [SubmissionController::class, 'updateWfh']);
+                Route::get('/delete', [SubmissionController::class, 'deleteWfh']);
+                Route::get('/confirm', [SubmissionController::class, 'confirmWfh']);
+                Route::put('/reject', [SubmissionController::class, 'rejectWfh']);
+                Route::put('/adjust', [SubmissionController::class, 'adjustWfh']);
+                Route::put('/update-status-description', [SubmissionController::class, 'updateStatusDescriptionWfh']);
             });
         });
 
@@ -99,6 +136,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [OfficeController::class, 'index']);
             Route::post('/add', [OfficeController::class, 'add']);
             Route::post('/create', [OfficeController::class, 'create']);
+            Route::get('/generate', [OfficeController::class, 'generate']);
+            Route::get('/download', [OfficeController::class, 'download']);
 
             // grup office_id
             Route::group(['prefix' => '{office_id}'], function () {
@@ -106,8 +145,6 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::put('/edit', [OfficeController::class, 'edit']);
                 Route::get('/detail', [OfficeController::class, 'detail']);
                 Route::get('/delete', [OfficeController::class, 'delete']);
-                Route::get('/generate', [OfficeController::class, 'generate']);
-                Route::get('/download', [OfficeController::class, 'download']);
             });
         });
 

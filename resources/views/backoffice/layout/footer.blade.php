@@ -1,7 +1,8 @@
-<footer class="footer">
-    <div class="container">
-        <div class="text-center">
-            Copyright © {{ date('Y') }} PT ZEN MULTIMEDIA INDONESIA
-        </div>
-    </div>
+<footer class="main-footer" style="position: relative; ">
+  {{-- <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+  reserved.
+  <div class="float-right d-none d-sm-block">
+    <b>Version</b> 3.0.4
+  </div> --}}
+  <strong>Absensi &copy; {{ date('Y') }}</strong>
 </footer>

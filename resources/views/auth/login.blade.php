@@ -7,12 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>ABSENSI PT ZEN</title>
+  <title>PRESENSI PT ZEN</title>
   <!-- loader-->
   <link href="{{ asset('assets/dashtreme-master/assets/css/pace.min.css') }}" rel="stylesheet" />
   <script src="{{ asset('assets/dashtreme-master/assets/js/pace.min.js') }}"></script>
   <!--favicon-->
   <link rel="icon" href="{{ asset('images/favicon.jpg') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
   <!-- Bootstrap core CSS-->
   <link href="{{ asset('assets/dashtreme-master/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
   <!-- animate CSS-->
@@ -24,7 +26,7 @@
 
 </head>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme bg-theme9">
 
   <!-- start loader -->
   <div id="pageloader-overlay" class="visible incoming">
@@ -93,8 +95,25 @@
                   placeholder="Enter Password" required
                   oninvalid="this.setCustomValidity('Password tidak boleh kosong')" oninput="setCustomValidity('')">
                 <div class="form-control-position">
-                  <i class="icon-lock"></i>
+                  <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                 </div>
+                <script>
+                  document.addEventListener("DOMContentLoaded", function () {
+                    const togglePassword = document.querySelector("#togglePassword");
+                    const password = document.querySelector("#exampleInputPassword");
+
+                    togglePassword.addEventListener("click", function () {
+                      // Toggle type
+                      const type = password.getAttribute("type") === "password" ? "text" : "password";
+                      password.setAttribute("type", type);
+
+                      // Toggle icon
+                      this.classList.toggle("fa-eye");
+                      this.classList.toggle("fa-eye-slash");
+                    });
+                  });
+                </script>
+
               </div>
             </div>
             <div class="form-row">

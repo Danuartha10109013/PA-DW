@@ -38,11 +38,25 @@
                 <div class="card-header">
                     <h3 class="card-title">Kantor / QR Code</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#download" title="Unduh">
+                            <span><i class="fa fa-download"></i></span>
+                        </button>
+                        @include('backoffice.office.modal.download')
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#generate" title="Generate">
+                            <span><i class="fa fa-qrcode"></i></span>
+                        </button>
+                        @include('backoffice.office.modal.generate')
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#edit-{{ $office->id }}" title="Ubah">
+                            <span><i class="fa fa-edit"></i></span>
+                        </button>
+                        {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                             data-target="#add" title="Tambah">
                             <i class="fa fa-add"></i> Tambah
                         </button>
-                        @include('backoffice.office.modal.add')
+                        @include('backoffice.office.modal.add') --}}
                         
                     </div>
                 </div>
@@ -58,28 +72,51 @@
                     @endif
 
                     <div class="row">
-                        @foreach ($offices as $office)
+                        <div class="col-md-4">
+                            <div class="card card-outline card-primary">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        {{-- {!! QrCode::size(400)->generate('http://127.0.0.1:8000/qrcode/' . $office->qrcode . '.png') !!} --}}
+                                        {!! QrCode::size(250)->generate($office->qrcode) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card card-outline card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Detail Kantor</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><b>Nama Kantor</b></p>
+                                            <p>{{ $office->name }}</p>
+                                            <p><b>Alamat Kantor</b></p>
+                                            <p>{{ $office->address }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><b>Jam Masuk</b></p>
+                                            <p>{{ $shift->start }}</p>
+                                            <p><b>Jam Pulang</b></p>
+                                            <p>{{ $shift->end }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- @foreach ($offices as $office)
                             <div class="col-md-4">
                                 <div class="card card-outline card-primary">
                                     <div class="card-header text-center">
                                         <h3 class="card-title">{{ $office->name }}</h3>
                                         <div class="card-tools">
-
-                                            {{-- download qrcode --}}
-                                            {{-- <a href="/backoffice/office/{{ $office->id }}/download" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-download"></i> 
-                                            </a> --}}
-
                                             <a href="/backoffice/office/{{ $office->id }}/detail" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-eye"></i> 
                                             </a>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#edit-{{ $office->id }}" title="Ubah">
                                                 <span><i class="fa fa-edit"></i></span>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#delete-{{ $office->id }}" title="Hapus">
-                                                <span><i class="fa fa-trash"></i></span>
                                             </button>
                                         </div>
                                     </div>
@@ -92,14 +129,15 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
 
+                    @include('backoffice.office.modal.edit')
                     {{-- modal --}}
-                    @foreach ($offices as $office)
+                    {{-- @foreach ($offices as $office)
                         @include('backoffice.office.modal.edit')
                         @include('backoffice.office.modal.delete')
-                    @endforeach
+                    @endforeach --}}
 
                 </div>
 
@@ -145,10 +183,10 @@
                     </div>
                     @endif
 
-                    <table class="table table-bordered table-hover text-center" id="myTable">
+                    <table class="table table-bordered table-hover text-center" id="example1">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Kantor</th>
                                 <th>Mulai</th>
                                 <th>Selesai</th>

@@ -9,7 +9,7 @@ class ShiftRepository
     public function getAll()
     {
         try {
-            return Shift::orderBy('id', 'desc')->get();
+            return Shift::orderBy('id', 'desc')->first();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -38,11 +38,11 @@ class ShiftRepository
         }
     }
 
-    public function update($request, $id)
+    public function update($id, $request)
     {
         try {
-            $shift = Shift::find($id);
-            $shift->name = $request->name;
+            $shift = Shift::first();
+            // $shift->name = $request->name;
             $shift->start = $request->start;
             $shift->end = $request->end;
             $shift->save();

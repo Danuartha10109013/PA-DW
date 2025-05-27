@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <p style="color:black;">Apakah anda yakin tolak pengajuan?</p>
                             <div class="callout callout-info">

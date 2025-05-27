@@ -19,9 +19,11 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
-        if (Auth::user()->role_id != 1) {
+        if (Auth::user()->role_id == 2) {
             return redirect('/backoffice/absen/');
-        } else {
+        }   elseif (Auth::user()->role_id == 3) {
+            return redirect('/backoffice/report');
+        }   else {
 
             $getAbsenTodays = $this->absentRepository->getAbsenToday();    
             $users = User::get();
@@ -32,10 +34,13 @@ class DashboardController extends Controller
             $countCutiToday = $this->absentRepository->countCutiToday();
             $countIzinToday = $this->absentRepository->countIzinToday();
             $countSakitToday = $this->absentRepository->countSakitToday();
+            $countWFHToday = $this->absentRepository->countWFHToday();
 
             $category = $request->category;
             if ($category == 'cuti') {
                 $absens = $this->absentRepository->getCutiToday();
+            } elseif ($category == 'wfh') {
+                $absens = $this->absentRepository->getWFHToday();
             } else if ($category == 'izin') {
                 $absens = $this->absentRepository->getIzinToday();
             } else if ($category == 'sakit') {
@@ -46,7 +51,7 @@ class DashboardController extends Controller
                 $absens = $this->absentRepository->getAbsenToday();
             }
 
-            return view('backoffice.dashboard.index', compact('countAbsenToday', 'countCutiToday', 'countIzinToday', 'countSakitToday', 'countUserNoAbsen', 'category', 'absens'));
+            return view('backoffice.dashboard.index', compact('countAbsenToday', 'countWFHToday', 'countCutiToday', 'countIzinToday', 'countSakitToday', 'countUserNoAbsen', 'category', 'absens'));
         }
 
     }

@@ -62,10 +62,10 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover text-center" id="myTable">
+                        <table class="table table-bordered table-hover text-center" id="example1">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Peran</th>
                                     <th>Pengguna</th>
                                     <th>Aksi</th>

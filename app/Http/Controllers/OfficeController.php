@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repository\OfficeRepository;
+use App\Http\Repository\ShiftRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -10,16 +11,20 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class OfficeController extends Controller
 {
     private $officeRepository;
+    private $shiftRepository;
 
-    public function __construct(OfficeRepository $officeRepository)
+    public function __construct(OfficeRepository $officeRepository, ShiftRepository $shiftRepository)
     {
         $this->officeRepository = $officeRepository;
+        $this->shiftRepository = $shiftRepository;
     }
 
     public function index()
     {
         $offices = $this->officeRepository->getAll();
-        return view('backoffice.office.index', compact('offices'));
+        $office = $this->officeRepository->getAll();
+        $shift = $this->shiftRepository->getAll();
+        return view('backoffice.office.index', compact(['office', 'shift']));
     }
 
     public function create(Request $request)
@@ -37,6 +42,7 @@ class OfficeController extends Controller
     public function update(Request $request, $id)
     {
         $office = $this->officeRepository->update($id, $request);
+        $shift = $this->shiftRepository->update($id, $request);
         return redirect()->back()->with('success', 'Kantor telah diperbarui');
     }
 
@@ -46,23 +52,15 @@ class OfficeController extends Controller
         return redirect()->back()->with('success', 'Kantor telah dihapus');
     }
 
-    public function generate($id)
+    public function generate()
     {
-        $office = $this->officeRepository->generate($id);
-        return view('backoffice.office.generate', compact('office'))->with('success', 'Generate ulang qrcode');
+        $office = $this->officeRepository->generate();
+        return redirect()->back()->with('success', 'Generate ulang qrcode');
     }
 
-    public function download($id)
+    public function download()
     {
-        // $office = $this->officeRepository->download($id);
-
-        $office = $this->officeRepository->getById($id);
-
-        $qrcode = QrCode::format('png')->size(500)->generate($office->qrcode);
-        dd($qrcode);
-
-        Storage::disk('public')->put('qrcode/office/' . $office->qrcode . '.png', $qrcode);
-
-        return redirect()->back()->with('success', 'Download qrcode');
+        $office = $this->officeRepository->getAll();
+        return response()->download(storage_path('app/public/qrcode/' . $office->qrcode . '.png'));
     }
 }

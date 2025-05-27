@@ -91,7 +91,7 @@
                                 @if ($absentToday)
                                     @if ($absentToday->start && !$absentToday->end)
                                         <button type="submit" class="btn btn-primary btn-block">
-                                            <span class="fa fa-sign-out"></span> Absen Pulang
+                                            <span class="fa fa-sign-out"></span> Presensi Pulang
                                         </button>
                                     @elseif ($absentToday->end)
                                         <button type="button" class="btn btn-success btn-block">
@@ -130,13 +130,13 @@
                                                     @if ($absentToday->status != 'Absen')
                                                         Anda sedang {{ $absentToday->status }}
                                                     @else
-                                                        Belum Absen
+                                                        Belum Presensi
                                                     @endif
                                                 @else
                                                     {{ $absentToday->start }}
                                                 @endif
                                             @else
-                                                Belum Absen
+                                                Belum Presensi
                                             @endif
                                         </div>
                                     </div>
@@ -144,19 +144,19 @@
                                 <div class="col-md-4">
                                     <div class="card bg-warning">
                                         <div class="card-body">
-                                            <h3>Absen Pulang</h3>
+                                            <h3>Presensi Pulang</h3>
                                             @if ($absentToday)
                                                 @if ($absentToday->end == null)
                                                     @if ($absentToday->status != 'Absen')
                                                     Anda sedang {{ $absentToday->status }}
                                                 @else
-                                                    Belum Absen
+                                                    Belum Presensi
                                                 @endif
                                                 @else
                                                     {{ $absentToday->end }}
                                                 @endif
                                             @else
-                                                Belum Absen
+                                                Belum Presensi
                                             @endif
                                         </div>
                                     </div>

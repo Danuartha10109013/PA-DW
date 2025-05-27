@@ -1,7 +1,7 @@
 <div class="modal fade" id="edit-data-{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form role="form" method="POST" action="/backoffice/user-data/user/{{ $user->id }}/update-data" enctype="multipart/form-data">
+            <form role="form" method="POST" action="/backoffice/user/{{ $user->id }}/update-data" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Ubah Data</h5>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="card bg-primary">
+                    <div class="card card-outline card-primary">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">

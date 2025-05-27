@@ -23,8 +23,9 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'nik' => 'required|unique:users,nik',
+            'position' => 'required',
             'email' => 'required|email|unique:users,email',
-            'role' => 'required',
             'password' => 'required|min:8|regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/',
         ];
     }
@@ -32,6 +33,9 @@ class CreateRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'nik.required' => 'NIK harus diisi',
+            'nik.unique' => 'NIK sudah terdaftar',
+            'position.required' => 'Posisi harus diisi',
             'name.required' => 'Nama harus diisi',
             'email.required' => 'Email harus diisi',
             'email.email' => 'Email harus valid',
