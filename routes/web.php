@@ -42,6 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [DashboardController::class, 'index']);
         });
 
+        Route::group(['prefix' => 'beranda'], function () {
+            Route::get('/home', [DashboardController::class, 'indexkaryawan']);
+        });
+
         // grup absen
         Route::group(['prefix' => 'absen'], function () {
             Route::get('/', [AbsentController::class, 'create']);

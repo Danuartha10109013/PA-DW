@@ -239,6 +239,7 @@ class AbsentRepository
 
     public function jamMasukWFH($request, $office, $getShift)
     {
+        // dd($request->all());
         try {
             $waktuMasuk = $getShift->start;
             $timeValidasi = date('H:i:s', strtotime($waktuMasuk) + 600);
@@ -250,6 +251,7 @@ class AbsentRepository
                 $absen->shift_id = 1;
                 $absen->start = now();
                 $absen->status = 'wfh';
+                $absen->bukti_absent = $request->bukti_absent_file;
                 $absen->type = 'wfh';
                 if (now()->format('H:i:s') > $timeValidasi) {
                     $absen->status_absent = 'telat';

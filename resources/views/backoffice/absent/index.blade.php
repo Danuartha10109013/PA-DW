@@ -292,6 +292,7 @@
                                     <th>Jam Pulang</th>
                                     <th>Status</th>
                                     <th>Metode Presensi</th>
+                                    <th>Bukti Absensi</th>
                                     {{-- <th>Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -330,7 +331,17 @@
                                             | {{ $absent->status_absent }}
                                         @endif
                                         </td>
-                                    <td>{{ $absent->type }}</td>
+                                        <td>{{ $absent->type }}</td>
+                                        <td>
+                                            @if($absent->bukti_absent)
+                                                <a href="{{ asset('storage/' . $absent->bukti_absent) }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    Lihat Bukti Absensi
+                                                </a>
+                                            @else
+                                                <span class="text-muted">Tidak ada bukti</span>
+                                            @endif
+                                        </td>
+
                                     {{-- <td>
                                         <a href="/backoffice/absent/{{ $absent->id }}/detail" class="btn btn-sm btn-primary">
                                             <i class="fa fa-eye"></i> Detail

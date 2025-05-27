@@ -73,6 +73,17 @@
                 </li>
                 @endif
 
+                @if (Auth::user()->role_id == 2)
+                    <li class="nav-item">
+                    <a href="/backoffice/beranda/home"
+                        class="nav-link {{ request()->is('backoffice/beranda/home', 'backoffice/beranda/home/*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-home"></i>
+                        <p>
+                            Beranda
+                        </p>
+                    </a>
+                </li>
+                @endif
                 @if (Auth::user()->role_id != 3)
                     <li class="nav-header">DATA PRESENSI</li>
                 @endif

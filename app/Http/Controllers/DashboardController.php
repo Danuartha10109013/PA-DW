@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
 
         if (Auth::user()->role_id == 2) {
-            return redirect('/backoffice/absen/');
+            return redirect('/backoffice/beranda/home/');
         }   elseif (Auth::user()->role_id == 3) {
             return redirect('/backoffice/report');
         }   else {
@@ -53,6 +53,12 @@ class DashboardController extends Controller
 
             return view('backoffice.dashboard.index', compact('countAbsenToday', 'countWFHToday', 'countCutiToday', 'countIzinToday', 'countSakitToday', 'countUserNoAbsen', 'category', 'absens'));
         }
+
+    }
+    public function indexkaryawan(Request $request)
+    {
+
+            return view('backoffice.karyawan.index');
 
     }
 }

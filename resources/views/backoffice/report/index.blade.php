@@ -197,6 +197,7 @@
                                     <th>Shift</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
+                                    {{-- <th>Bukti Absent</th> --}}
                                     <th>Status</th>
                                     {{-- <th>Aksi</th> --}}
                                 </tr>
@@ -236,6 +237,16 @@
                                     </td>
                                     <td>{{ $absent->start }}</td>
                                     <td>{{ $absent->end }}</td>
+                                    {{-- <td>
+                                        @if($item->bukti_absent)
+                                            <a href="{{ asset('storage/' . $item->bukti_absent) }}" target="_blank" class="btn btn-sm btn-primary">
+                                                Lihat Bukti Absensi
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Tidak ada bukti</span>
+                                        @endif
+                                    </td> --}}
+
                                     <td>{{ $absent->status }}</td>
                                     {{-- <td>
                                         <a href="/backoffice/absent/{{ $absent->id }}/detail" class="btn btn-sm btn-primary">

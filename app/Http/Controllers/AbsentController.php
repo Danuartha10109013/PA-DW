@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AbsentController extends Controller
 {
@@ -261,6 +262,24 @@ class AbsentController extends Controller
         $getShift = $this->shiftRepository->getById($shift);
         $jam = now()->format('H:i:s');
         $checkAbsenToday = $this->absentRepository->getAbsenTodayByUserId();
+        if ($request->has('bukti_absent')) {
+            $image = $request->input('bukti_absent');
+            
+            // Decode Base64
+            $image = str_replace('data:image/jpeg;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageData = base64_decode($image);
+
+            // Buat nama file unik
+            $fileName = 'bukti_absent_' . Auth::user()->id . '_' . now()->timestamp . '.jpg';
+
+            // Simpan file
+            $filePath = 'bukti_absent/' . $fileName;
+            Storage::disk('public')->put($filePath, $imageData);
+
+            // Simpan path ke request agar bisa dipakai repository
+            $request->merge(['bukti_absent_file' => $filePath]);
+        }
 
         if (!$checkAbsenToday) {
             $this->absentRepository->jamMasukWFH($request, $getOffice, $getShift);

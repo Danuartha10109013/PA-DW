@@ -121,7 +121,7 @@
                         <div class="col-md-4 mb-3">
                             <div class="wfo-choice">
                                 
-                                <form action="/backoffice/wfh/wfh-store" method="POST" id="form">
+                                <form action="/backoffice/wfh/wfh-store" method="POST" id="form" enctype="multipart/form-data">
                                     @csrf
 
                                     {{-- @if ($absentToday)
@@ -144,9 +144,9 @@
                                         @endif
                                     @endif --}}
                                     
-                                    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-3">
+                                    {{-- <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-3">
                                         <img src="{{ asset('images/favicon.jpg') }}" alt="qr-code" class="img-fluid rounded" style="width: 100%; height: 300px;">
-                                    </div>
+                                    </div> --}}
 
                                     @if ($absentToday)
                                         @if ($absentToday->status == 'wfh')
@@ -189,7 +189,112 @@
                                             @endif
                                         </div> --}}
 
-                                        <hr>
+                                            <style>
+                                            #camera-wrapper {
+                                                position: relative;
+                                                width: 100%;
+                                                max-width: 320px;
+                                                margin: auto;
+                                            }
+
+                                            #camera {
+                                                width: 100%;
+                                                border-radius: 12px;
+                                                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                            }
+
+                                            #countdown {
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                font-size: 48px;
+                                                font-weight: bold;
+                                                transform: translate(-50%, -50%);
+                                                color: red;
+                                                display: none;
+                                                background-color: rgba(255, 255, 255, 0.7);
+                                                padding: 10px 20px;
+                                                border-radius: 8px;
+                                            }
+
+                                            #capture-btn {
+                                                margin-top: 10px;
+                                                width: 100%;
+                                                padding: 10px;
+                                                background-color: #007bff;
+                                                border: none;
+                                                color: white;
+                                                border-radius: 8px;
+                                                font-size: 16px;
+                                                cursor: pointer;
+                                                transition: background 0.3s ease;
+                                            }
+
+                                            #capture-btn:hover {
+                                                background-color: #0056b3;
+                                            }
+
+                                            #preview-img {
+                                                margin-top: 10px;
+                                                width: 100%;
+                                                border-radius: 8px;
+                                                display: none;
+                                            }
+                                            </style>
+
+                                            <div class="mb-3" id="camera-wrapper">
+                                                <video id="camera" autoplay playsinline></video>
+                                                <div id="countdown">3</div>
+                                                <button type="button" id="capture-btn">📷 Ambil Foto</button>
+                                                <canvas id="canvas" style="display:none;"></canvas>
+                                                <img id="preview-img" alt="Preview">
+                                                <input type="hidden" name="bukti_absent" id="bukti_absent_input">
+                                            </div>
+
+                                            <script>
+                                            const video = document.getElementById('camera');
+                                            const canvas = document.getElementById('canvas');
+                                            const countdown = document.getElementById('countdown');
+                                            const captureBtn = document.getElementById('capture-btn');
+                                            const previewImg = document.getElementById('preview-img');
+                                            const buktiInput = document.getElementById('bukti_absent_input');
+
+                                            // Start camera
+                                            navigator.mediaDevices.getUserMedia({ video: true })
+                                                .then(stream => {
+                                                    video.srcObject = stream;
+                                                })
+                                                .catch(err => {
+                                                    alert('Tidak dapat mengakses kamera: ' + err.message);
+                                                });
+
+                                            captureBtn.addEventListener('click', () => {
+                                                let seconds = 3;
+                                                countdown.textContent = seconds;
+                                                countdown.style.display = 'block';
+
+                                                const timer = setInterval(() => {
+                                                    seconds--;
+                                                    if (seconds > 0) {
+                                                        countdown.textContent = seconds;
+                                                    } else {
+                                                        clearInterval(timer);
+                                                        countdown.style.display = 'none';
+
+                                                        // Capture
+                                                        canvas.width = video.videoWidth;
+                                                        canvas.height = video.videoHeight;
+                                                        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                                                        const imageData = canvas.toDataURL('image/jpeg');
+                                                        previewImg.src = imageData;
+                                                        previewImg.style.display = 'block';
+                                                        buktiInput.value = imageData; // kirim base64 ke input tersembunyi
+                                                    }
+                                                }, 1000);
+                                            });
+                                            </script>
+
                                         
                                         {{-- <form action="/backoffice/wfh/wfh-store" method="POST">
                                         @csrf --}}
@@ -223,7 +328,7 @@
 
                                                 </div>
                                             </div>
-
+                                           
                                             {{-- <button type="submit" class="btn btn-block btn-primary">
                                                 <i class="fa fa-save"></i> Save Changes
                                             </button> --}}
