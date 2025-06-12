@@ -17,10 +17,7 @@
                                 <label style="color: black;">Pilih Karyawan <span class="text-danger">*</span></label>
                                 <select name="user_id" class="form-control @if($errors->has('user_id')) is-invalid @endif" required
                                 oninvalid="this.setCustomValidity('Karyawan harus diisi')" oninput="this.setCustomValidity('')">
-                                    <option value="">-- Pilih Karyawan --</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
+                                        <option selected value="{{ $user->id }}">{{ $user->name }}</option>
                                 </select>
                                 @if($errors->has('start_date'))
                                 <small class="help-block" style="color: red">{{ $errors->first('start_date') }}</small>
@@ -29,7 +26,7 @@
                             <div class="form-group">
                                 <label style="color: black;">Mulai Pengajuan <span class="text-danger">*</span></label>
                                 <input type="date"  name="start_date" class="form-control @if($errors->has('start_date')) is-invalid @endif" placeholder="Mulai Pengajuan" value="{{ old('start_date') }}"
-                                required oninvalid="this.setCustomValidity('Mulai Pengajuan harus diisi')" oninput="this.setCustomValidity('')" min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+                                required oninvalid="this.setCustomValidity('Mulai Pengajuan harus diisi')" oninput="this.setCustomValidity('')" >
                                 @if($errors->has('start_date'))
                                 <small class="help-block" style="color: red">{{ $errors->first('start_date') }}</small>
                                 @endif
@@ -37,7 +34,7 @@
                             <div class="form-group">
                                 <label style="color: black;">Selesai Pengajuan <span class="text-danger">*</span></label>
                                 <input type="date"  name="end_date" class="form-control @if($errors->has('end_date')) is-invalid @endif" placeholder="Selesai Pengajuan" value="{{ old('end_date') }}"
-                                required oninvalid="this.setCustomValidity('Selesai Pengajuan harus diisi')" oninput="this.setCustomValidity('')" min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+                                required oninvalid="this.setCustomValidity('Selesai Pengajuan harus diisi')" oninput="this.setCustomValidity('')" >
                                 @if($errors->has('end_date'))
                                 <small class="help-block" style="color: red">{{ $errors->first('end_date') }}</small>
                                 @endif

@@ -126,6 +126,92 @@
                         </div>  
                         
                     </div>
+                    <div class="mb-4 mx-3">
+                        <center><h4 class="text text-bold">Data Presensi</h4></center>
+                        @php
+                            $tepat_waktu_wfo = \App\Models\Absent::where('user_id',$absent->user->id)->where('status','hadir')->where('status_absent','tepat waktu')->count();
+                            $telat_wfo = \App\Models\Absent::where('user_id',$absent->user->id)->where('status','hadir')->where('status_absent','telat')->count();
+                            $tepat_waktu_wfh = \App\Models\Absent::where('user_id',$absent->user->id)->where('status','wfh')->where('status_absent','tepat waktu')->count();
+                            $telat_wfh = \App\Models\Absent::where('user_id',$absent->user->id)->where('status','wfh')->where('status_absent','telat')->count();
+                            $cuti_setuju = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','cuti')->where('status','Disetujui')->count();
+                            $cuti_tolak = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','cuti')->where('status','Ditolak')->count();
+                            $sakit_setuju = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','sakit')->where('status','Disetujui')->count();
+                            $sakit_tolak = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','sakit')->where('status','Ditolak')->count();
+                            $izin_setuju = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','izin')->where('status','Disetujui')->count();
+                            $izin_tolak = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','izin')->where('status','Ditolak')->count();
+                            $wfh_setuju = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','wfh')->where('status','Disetujui')->count();
+                            $wfh_tolak = \App\Models\Submission::where('user_id',$absent->user->id)->where('type','wfh')->where('status','Ditolak')->count();
+                        @endphp
+
+                        <div class="row text-center mt-3">
+                            <!-- WFO -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">Work From Office</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Tepat Waktu: <strong>{{ $tepat_waktu_wfo }}</strong></p>
+                                        <p class="mb-0">Telat: <strong>{{ $telat_wfo }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WFH -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">Work From Home</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Tepat Waktu: <strong>{{ $tepat_waktu_wfh }}</strong></p>
+                                        <p class="mb-0">Telat: <strong>{{ $telat_wfh }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cuti -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-warning">
+                                    <div class="card-header bg-warning text-dark">Cuti</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Disetujui: <strong>{{ $cuti_setuju }}</strong></p>
+                                        <p class="mb-0">Ditolak: <strong>{{ $cuti_tolak }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sakit -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-danger">
+                                    <div class="card-header bg-danger text-white">Sakit</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Disetujui: <strong>{{ $sakit_setuju }}</strong></p>
+                                        <p class="mb-0">Ditolak: <strong>{{ $sakit_tolak }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Izin -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">Izin</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Disetujui: <strong>{{ $izin_setuju }}</strong></p>
+                                        <p class="mb-0">Ditolak: <strong>{{ $izin_tolak }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Izin -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">Pengajuan Work Form Home</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">Disetujui: <strong>{{ $wfh_setuju }}</strong></p>
+                                        <p class="mb-0">Ditolak: <strong>{{ $wfh_tolak }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>

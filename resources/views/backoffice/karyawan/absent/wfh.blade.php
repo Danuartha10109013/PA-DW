@@ -328,7 +328,15 @@
 
                                                 </div>
                                             </div>
-                                           
+                                            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+                                           <div class="mt-3">
+                                                <label>Latitude:</label>
+                                                <input type="text" name="latitude" id="latitude" class="form-control" readonly>
+
+                                                <label class="mt-2">Longitude:</label>
+                                                <input type="text" name="longitude" id="longitude" class="form-control" readonly>
+                                            </div>
+                                           <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
                                             {{-- <button type="submit" class="btn btn-block btn-primary">
                                                 <i class="fa fa-save"></i> Save Changes
                                             </button> --}}
@@ -439,6 +447,69 @@
                                 </div>
                             </div>
                             <div id="map" style="height: 400px"></div>
+                           <script>
+                                let map = L.map('map').setView([-6.200000, 106.816666], 13); // Default view: Jakarta
+                                let marker;
+
+                                // Tile Layer
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; OpenStreetMap contributors'
+                                }).addTo(map);
+
+                                // Set Marker Function
+                                function setMarker(lat, lng) {
+                                    document.getElementById('latitude').value = lat.toFixed(6);
+                                    document.getElementById('longitude').value = lng.toFixed(6);
+
+                                    const latlng = L.latLng(lat, lng);
+
+                                    if (marker) {
+                                        marker.setLatLng(latlng);
+                                    } else {
+                                        marker = L.marker(latlng).addTo(map);
+                                    }
+
+                                    map.setView(latlng, 16);
+                                }
+
+                                // Request Geolocation Permission
+                                if (navigator.permissions) {
+                                    navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+                                        if (result.state === 'granted' || result.state === 'prompt') {
+                                            navigator.geolocation.getCurrentPosition(function (position) {
+                                                const lat = position.coords.latitude;
+                                                const lng = position.coords.longitude;
+                                                setMarker(lat, lng);
+                                            }, function (error) {
+                                                alert("Gagal mendapatkan lokasi: " + error.message);
+                                            });
+                                        } else if (result.state === 'denied') {
+                                            alert("Akses lokasi ditolak oleh browser. Silakan izinkan lokasi dari pengaturan browser.");
+                                        }
+                                    });
+                                } else {
+                                    // Fallback untuk browser yang tidak mendukung Permissions API
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(function (position) {
+                                            const lat = position.coords.latitude;
+                                            const lng = position.coords.longitude;
+                                            setMarker(lat, lng);
+                                        }, function (error) {
+                                            alert("Gagal mendapatkan lokasi: " + error.message);
+                                        });
+                                    } else {
+                                        alert("Geolokasi tidak didukung oleh browser ini.");
+                                    }
+                                }
+
+                                // Klik di peta
+                                map.on('click', function (e) {
+                                    const lat = e.latlng.lat;
+                                    const lng = e.latlng.lng;
+                                    setMarker(lat, lng);
+                                });
+                            </script>
+
                         </div>
 
                     </div>

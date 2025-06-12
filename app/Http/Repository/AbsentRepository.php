@@ -253,6 +253,8 @@ class AbsentRepository
                 $absen->status = 'wfh';
                 $absen->bukti_absent = $request->bukti_absent_file;
                 $absen->type = 'wfh';
+                $absen->latitude = $request->latitude;
+                $absen->longitude = $request->longitude;
                 if (now()->format('H:i:s') > $timeValidasi) {
                     $absen->status_absent = 'telat';
                 } else {

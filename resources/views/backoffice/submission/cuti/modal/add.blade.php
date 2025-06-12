@@ -19,15 +19,12 @@
                                     class="form-control @if($errors->has('user_id')) is-invalid @endif" required
                                     oninvalid="this.setCustomValidity('Karyawan harus diisi')"
                                     oninput="this.setCustomValidity('')">
-                                    <option value="">-- Pilih Karyawan --</option>
-                                    @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}
+                                    <option value="{{ $user->id }}" selected>{{ $user->name }}
                                         - jumlah cuti diambil
                                         {{ $user->countCutiPerTahun($user->id, now()->format('Y')) }} hari
                                         - jumlah sisa cuti
                                         {{ ( 12 - $user->countCutiPerTahun($user->id, now()->format('Y')) ) }} hari
                                     </option>
-                                    @endforeach
                                 </select>
                                 @if($errors->has('start_date'))
                                 <small class="help-block" style="color: red">{{ $errors->first('start_date') }}</small>

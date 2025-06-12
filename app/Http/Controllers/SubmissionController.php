@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repository\SubmissionRepository;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SubmissionController extends Controller
@@ -19,21 +20,41 @@ class SubmissionController extends Controller
     // cuti
     public function cuti(Request $request)
     {
-        $users = User::where('role_id', 2)->get();
-        $submissions = $this->submissionRepository->getAllByTypeCuti($request);
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
-        $hadir = null;
-        $sakit = null;
-        $izin = null;
-        $cuti = null;
+        if(Auth::user()->role_id == 2){
+            $user = User::find(Auth::user()->id);
+            $submissions = $this->submissionRepository->getAllByTypeCuti($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $cuti = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $cuti = $submissions->where('type', 'cuti')->count();
+            }
+            return view('backoffice.submission.cuti.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'user']));
 
-        if ($bulan && $tahun) {
-            $sakit = $submissions->where('type', 'sakit')->count();
-            $izin = $submissions->where('type', 'izin')->count();
-            $cuti = $submissions->where('type', 'cuti')->count();
+        }else{
+
+            $users = User::where('role_id', 2)->get();
+            $submissions = $this->submissionRepository->getAllByTypeCuti($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $cuti = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $cuti = $submissions->where('type', 'cuti')->count();
+            }
+            return view('backoffice.submission.cuti.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'users']));
         }
-        return view('backoffice.submission.cuti.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'users']));
     }
 
     public function storeCuti(Request $request)
@@ -92,21 +113,40 @@ class SubmissionController extends Controller
     // wfh
     public function wfh(Request $request)
     {
-        $users = User::where('role_id', 2)->get();
-        $submissions = $this->submissionRepository->getAllByTypeWFH($request);
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
-        $hadir = null;
-        $sakit = null;
-        $izin = null;
-        $wfh = null;
+        if(Auth::user()->role_id == 2){
+            $user = User::find(Auth::user()->id);
+            $submissions = $this->submissionRepository->getAllByTypeWFH($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $wfh = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $wfh = $submissions->where('type', 'wfh')->count();
+            }
+            return view('backoffice.submission.wfh.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'wfh', 'user']));
+        }else{
 
-        if ($bulan && $tahun) {
-            $sakit = $submissions->where('type', 'sakit')->count();
-            $izin = $submissions->where('type', 'izin')->count();
-            $wfh = $submissions->where('type', 'wfh')->count();
+            $users = User::where('role_id', 2)->get();
+            $submissions = $this->submissionRepository->getAllByTypeWFH($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $wfh = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $wfh = $submissions->where('type', 'wfh')->count();
+            }
+            return view('backoffice.submission.wfh.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'wfh', 'users']));
         }
-        return view('backoffice.submission.wfh.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'wfh', 'users']));
     }
 
     public function storeWFH(Request $request)
@@ -161,22 +201,42 @@ class SubmissionController extends Controller
     // izin-sakit
     public function izinSakit(Request $request)
     {
-        $users = User::where('role_id', 2)->get();
-        $submissions = $this->submissionRepository->getAllNonTypeCuti($request);
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
-        $hadir = null;
-        $sakit = null;
-        $izin = null;
-        $cuti = null;
+        if(Auth::user()->role_id == 2){
+            $user = User::find(Auth::user()->id);
+            $submissions = $this->submissionRepository->getAllNonTypeCuti($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $cuti = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $cuti = $submissions->where('type', 'cuti')->count();
+            }
+    
+            return view('backoffice.submission.izin-sakit.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'user'])); 
+        }else{
 
-        if ($bulan && $tahun) {
-            $sakit = $submissions->where('type', 'sakit')->count();
-            $izin = $submissions->where('type', 'izin')->count();
-            $cuti = $submissions->where('type', 'cuti')->count();
+            $users = User::where('role_id', 2)->get();
+            $submissions = $this->submissionRepository->getAllNonTypeCuti($request);
+            $bulan = $request->bulan;
+            $tahun = $request->tahun;
+            $hadir = null;
+            $sakit = null;
+            $izin = null;
+            $cuti = null;
+    
+            if ($bulan && $tahun) {
+                $sakit = $submissions->where('type', 'sakit')->count();
+                $izin = $submissions->where('type', 'izin')->count();
+                $cuti = $submissions->where('type', 'cuti')->count();
+            }
+    
+            return view('backoffice.submission.izin-sakit.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'users'])); 
         }
-
-        return view('backoffice.submission.izin-sakit.index', compact(['submissions', 'bulan', 'tahun', 'hadir', 'sakit', 'izin', 'cuti', 'users'])); 
     }
 
     public function storeIzinSakit(Request $request)

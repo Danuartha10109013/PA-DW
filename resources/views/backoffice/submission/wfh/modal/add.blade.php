@@ -17,10 +17,10 @@
                                 <label style="color: black;">Pilih Karyawan <span class="text-danger">*</span></label>
                                 <select name="user_id" class="form-control @if($errors->has('user_id')) is-invalid @endif" required
                                 oninvalid="this.setCustomValidity('Karyawan harus diisi')" oninput="this.setCustomValidity('')">
-                                    <option value="">-- Pilih Karyawan --</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
+                                    {{-- <option value="">-- Pilih Karyawan --</option> --}}
+                                    {{-- @foreach ($users as $user) --}}
+                                        <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
+                                    {{-- @endforeach --}}
                                 </select>
                                 @if($errors->has('start_date'))
                                 <small class="help-block" style="color: red">{{ $errors->first('start_date') }}</small>

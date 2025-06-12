@@ -84,7 +84,7 @@
                         </form>
     
                         <div class="card-tools">
-                            @if (auth()->user()->role_id == 1)
+                            @if (auth()->user()->role_id == 2)
                                 <button title="Tambah" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#tambah">
                                     <span class="fa fa-plus"></span> Tambah WFH
                                 </button>
@@ -252,15 +252,15 @@
                                         @if ($submission->user_id != null)
                                             @if (auth()->user()->role_id == 1)
                                                 @if ($submission->status == "Pengajuan")
-                                                    {{-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
-                                                        <i class="fa fa-check"></i> Setuju
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                        <i class="fa fa-check"></i> 
                                                     </button>
                                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject-{{ $submission->id }}" title="Tolak">
-                                                        <i class="fa fa-times"></i> Tolak
-                                                    </button> --}}
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
-                                                        <i class="fa fa-check"></i>
+                                                        <i class="fa fa-times"></i> 
                                                     </button>
+                                                    {{-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                        <i class="fa fa-check"></i>
+                                                    </button> --}}
                                                     <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit-{{ $submission->id }}" title="Ubah">
                                                         <i class="fa fa-edit"></i>
                                                         @if ($submission->status == "Pengajuan")

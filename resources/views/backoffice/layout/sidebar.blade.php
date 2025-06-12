@@ -164,8 +164,39 @@
                         </p>
                     </a>
                 </li>
+                <br><br><br><br>
                 @endif
 
+                @if (Auth::user()->role_id == 2)
+                <li class="nav-header">PENGAJUAN PRESENSI</li>
+                <li class="nav-item">
+                    <a href="/backoffice/cuti"
+                        class="nav-link {{ request()->is('backoffice/cuti', 'backoffice/cuti/*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-list"></i>
+                        <p>
+                            Cuti
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backoffice/izin-sakit"
+                        class="nav-link {{ request()->is('backoffice/izin-sakit', 'backoffice/izin-sakit/*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-list"></i>
+                        <p>
+                            Izin/Sakit
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backoffice/data-wfh"
+                        class="nav-link {{ request()->is('backoffice/data-wfh', 'backoffice/data-wfh/*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-list"></i>
+                        <p>
+                            WFH
+                        </p>
+                    </a>
+                </li>
+                @endif
             </ul>
         </nav>
         

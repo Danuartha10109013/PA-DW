@@ -34,9 +34,8 @@
                                 </h3>
                             </div>
 
-                            <div class="pl-4">
+                            <div class="pl-4"></div>
 
-                            </div>
                             <div class="input-group input-group-sm">
                                 <label for="">Cari: </label>
                                 <select name="bulan" class="form-control ml-2" required
@@ -66,7 +65,15 @@
                                     @endfor
                                 </select>
                             </div>
-                            
+
+                            {{-- Tambahan filter tanggal --}}
+                            {{-- <div class="input-group input-group-sm ml-2">
+                                <input type="date" name="tanggal" class="form-control"
+                                    value="{{ request('tanggal') }}" 
+                                    oninput="this.setCustomValidity('')" 
+                                    oninvalid="this.setCustomValidity('Tanggal harus dipilih')">
+                            </div> --}}
+
                             <div class="input-group ml-2">
                                 <button type="submit" class="btn btn-success btn-sm">
                                     <i class="fas fa-search"></i>
@@ -75,13 +82,13 @@
 
                             @if ($bulan)
                                 <div class="input-group ml-2">
-                                    <a href="/backoffice/absent" class="btn btn-primary btn-sm">
+                                    <a href="/backoffice/cuti" class="btn btn-primary btn-sm">
                                         <i class="fas fa-sync-alt"></i>
                                     </a>
                                 </div>
                             @endif
-
                         </form>
+
     
                         <div class="card-tools">
                             {{-- @if (auth()->user()->role_id != 1)
@@ -90,7 +97,7 @@
                                 </button>
                                 @include('backoffice.submission.cuti.modal.add')
                             @endif --}}
-                            @if (auth()->user()->role_id == 1)
+                            @if (auth()->user()->role_id == 2)
                                 <button title="Tambah" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#tambah">
                                     <span class="fa fa-plus"></span> Tambah Cuti
                                 </button>
@@ -228,7 +235,7 @@
                                     <td>{{ $submission->total_day }}</td>
                                     <td>
                                         <button class="badge badge-light" data-toggle="modal" data-target="#description-{{ $submission->id }}" title="Alasan">
-                                            <i class="fa fa-eye"></i> Lihat alasan
+                                            <i class="fa fa-eye"></i>
                                         </button>
                                     </td>
                                     <td>
@@ -254,7 +261,7 @@
                                                     <span class="badge badge-danger"> <i class="fa fa-times"></i> Ditolak</span> | 
                                                 </h5>
                                                 <button class="badge badge-light ml-1" data-toggle="modal" data-target="#description-status-{{ $submission->id }}" title="Keterangan ditolak">
-                                                    <i class="fa fa-eye"></i> Keterangan
+                                                    <i class="fa fa-eye"></i> 
                                                 </button>
                                             </div>
                                         @endif
@@ -263,15 +270,15 @@
                                         @if ($submission->user_id != null)
                                             @if (auth()->user()->role_id == 1)
                                                 @if ($submission->status == "Pengajuan")
-                                                    {{-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
-                                                        <i class="fa fa-check"></i> Setuju
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                        <i class="fa fa-check"></i> 
                                                     </button>
                                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject-{{ $submission->id }}" title="Tolak">
-                                                        <i class="fa fa-times"></i> Tolak
-                                                    </button> --}}
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
-                                                        <i class="fa fa-check"></i>
+                                                        <i class="fa fa-times"></i> 
                                                     </button>
+                                                    {{-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#accept-{{ $submission->id }}" title="Setuju">
+                                                        <i class="fa fa-check"></i>
+                                                    </button> --}}
                                                     <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit-{{ $submission->id }}" title="Ubah">
                                                         <i class="fa fa-edit"></i>
                                                         @if ($submission->status == "Pengajuan")
