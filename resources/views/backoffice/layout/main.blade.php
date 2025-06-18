@@ -52,7 +52,50 @@ crossorigin=""></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const lastRun = localStorage.getItem('last_generate_date');
+        const today = new Date().toISOString().slice(0, 10); // format YYYY-MM-DD
+
+        if (lastRun !== today) {
+            // Jalankan otomatis hanya sekali hari ini
+            fetch("/backoffice/office/generate")
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Generate berhasil dijalankan.");
+                        localStorage.setItem('last_generate_date', today);
+                    } else {
+                        console.error("Gagal generate:", response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saat generate:", error);
+                });
+        }
+    });
+</script>
+{{-- <script>
+    function generateQRCode() {
+        fetch("/backoffice/office/generate")
+            .then(response => {
+                if (response.ok) {
+                    console.log("Generate berhasil dijalankan pada " + new Date().toLocaleTimeString());
+                } else {
+                    console.error("Gagal generate:", response.status);
+                }
+            })
+            .catch(error => {
+                console.error("Error saat generate:", error);
+            });
+    }
+
+    // Jalankan pertama kali saat halaman dimuat
+    generateQRCode();
+
+    // Jalankan setiap 60 detik (60000 ms)
+    setInterval(generateQRCode, 60000);
+</script> --}}
+
     @include('backoffice.layout.navbar')
 
     @include('backoffice.layout.sidebar')

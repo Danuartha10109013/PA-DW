@@ -126,7 +126,7 @@
                         </div>  
                         
                     </div>
-                    <div class="mb-4 mx-3">
+                    {{-- <div class="mb-4 mx-3">
                         <center><h4 class="text text-bold">Data Presensi</h4></center>
                         @php
                             $tepat_waktu_wfo = \App\Models\Absent::where('user_id',$absent->user->id)->where('status','hadir')->where('status_absent','tepat waktu')->count();
@@ -209,7 +209,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                 </div>

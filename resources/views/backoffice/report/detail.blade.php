@@ -85,6 +85,8 @@
                                     <p>Jam Keluar: <b>{{ $absent->end }}</b></p>
                                 </div>
                             </div>
+                            
+
                         </div>
                     </div>
 

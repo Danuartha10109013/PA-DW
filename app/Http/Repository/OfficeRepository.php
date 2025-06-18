@@ -94,20 +94,33 @@ class OfficeRepository
     }
 
     public function generate()
-    {
-        try {
-            $office = Office::first();
-            Storage::disk('public')->delete('qrcode/' . $office->qrcode . '.png');
-            $office->qrcode = Str::random(40);
-            $qrcode = QrCode::format('png')->size(500)->generate($office->qrcode);
-            Storage::disk('public')->put('qrcode/' . $office->qrcode . '.png', $qrcode);
-            $office->save();
+{
+    try {
+        $office = Office::first();
 
-            return $office;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        // Hapus QR lama (jika ada)
+        Storage::disk('public')->delete('qrcode/' . $office->qrcode . '.png');
+
+        // Buat kode baru
+        $office->qrcode = Str::random(40);
+
+        // Generate QR base64 (tidak perlu imagick)
+        $qrcodeBase64 = \QrCode::format('png')
+            ->size(500)
+            ->generate($office->qrcode);
+
+        // Simpan ke storage sebagai PNG (masih tanpa imagick)
+        Storage::disk('public')->put('qrcode/' . $office->qrcode . '.png', $qrcodeBase64);
+
+        $office->save();
+
+        return $office;
+
+    } catch (\Throwable $th) {
+        return response()->json(['error' => $th->getMessage()], 500);
     }
+}
+
 
     public function download()
     {

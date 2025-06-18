@@ -58,6 +58,11 @@ class OfficeController extends Controller
         return redirect()->back()->with('success', 'Generate ulang qrcode');
     }
 
+    public function qrcode(){
+        $office = $this->officeRepository->getAll();
+        return view('qrcode.index',compact('office'));
+    }
+
     public function download()
     {
         $office = $this->officeRepository->getAll();

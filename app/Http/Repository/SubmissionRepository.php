@@ -342,6 +342,9 @@ class SubmissionRepository
             if ($submission->skd) {
                 Storage::disk('public')->delete($submission->skd);
             }
+            // if($submission->status == 'Disetujui'){
+
+            // }
             $submission->delete();
             return $submission;
         } catch (\Throwable $th) {

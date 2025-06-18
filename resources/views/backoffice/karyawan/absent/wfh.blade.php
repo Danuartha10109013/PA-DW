@@ -298,18 +298,18 @@
                                         
                                         {{-- <form action="/backoffice/wfh/wfh-store" method="POST">
                                         @csrf --}}
-                                            <div class="card">
+                                            {{-- <div class="card">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Regular class session</h3>
                                                 </div>
-                                                <div class="card-body">
+                                                <div class="card-body"> --}}
                                                     @if ($absentToday)
                                                         
                                                     @else
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group ml-4">
-                                                                <input type="radio" class="form-check-input" name="status" value="hadir" id="hadir" required>
-                                                                <label for="hadir">Hadir</label>
+                                                                <input type="hidden" class="form-check-input" name="status" value="hadir" id="hadir" required>
+                                                                {{-- <label for="hadir">Hadir</label> --}}
                                                             </div>
                                                             {{-- <div class="form-group">
                                                                 <input type="radio" class="form-check-input" name="status" value="hadir" id="terlambat" required>
@@ -326,15 +326,22 @@
                                                         </div>
                                                     @endif
 
-                                                </div>
-                                            </div>
+                                                {{-- </div>
+                                            </div> --}}
                                             <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-                                           <div class="mt-3">
-                                                <label>Latitude:</label>
-                                                <input type="text" name="latitude" id="latitude" class="form-control" readonly>
+                                           <div class="form-group mb-3">
+                                                <label for="latitude">Latitude</label>
+                                                <input type="text" id="latitude" name="latitude" class="form-control" readonly>
+                                            </div>
 
-                                                <label class="mt-2">Longitude:</label>
-                                                <input type="text" name="longitude" id="longitude" class="form-control" readonly>
+                                            <div class="form-group mb-3">
+                                                <label for="longitude">Longitude</label>
+                                                <input type="text" id="longitude" name="longitude" class="form-control" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="alamat">Alamat Lengkap</label>
+                                                <textarea id="alamat" name="alamat" class="form-control" rows="2" readonly></textarea>
                                             </div>
                                            <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
                                             {{-- <button type="submit" class="btn btn-block btn-primary">
@@ -448,67 +455,81 @@
                             </div>
                             <div id="map" style="height: 400px"></div>
                            <script>
-                                let map = L.map('map').setView([-6.200000, 106.816666], 13); // Default view: Jakarta
-                                let marker;
+    let map = L.map('map', { zoomControl: false, dragging: false }).setView([-6.200000, 106.816666], 13); // Default Jakarta
+    let marker;
 
-                                // Tile Layer
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; OpenStreetMap contributors'
-                                }).addTo(map);
+    // Tile Layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-                                // Set Marker Function
-                                function setMarker(lat, lng) {
-                                    document.getElementById('latitude').value = lat.toFixed(6);
-                                    document.getElementById('longitude').value = lng.toFixed(6);
+    // Fungsi untuk men-set marker dan input lokasi
+    function setMarker(lat, lng) {
+        document.getElementById('latitude').value = lat.toFixed(6);
+        document.getElementById('longitude').value = lng.toFixed(6);
 
-                                    const latlng = L.latLng(lat, lng);
+        const latlng = L.latLng(lat, lng);
 
-                                    if (marker) {
-                                        marker.setLatLng(latlng);
-                                    } else {
-                                        marker = L.marker(latlng).addTo(map);
-                                    }
+        if (marker) {
+            marker.setLatLng(latlng);
+        } else {
+            marker = L.marker(latlng).addTo(map);
+        }
 
-                                    map.setView(latlng, 16);
-                                }
+        map.setView(latlng, 16);
 
-                                // Request Geolocation Permission
-                                if (navigator.permissions) {
-                                    navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-                                        if (result.state === 'granted' || result.state === 'prompt') {
-                                            navigator.geolocation.getCurrentPosition(function (position) {
-                                                const lat = position.coords.latitude;
-                                                const lng = position.coords.longitude;
-                                                setMarker(lat, lng);
-                                            }, function (error) {
-                                                alert("Gagal mendapatkan lokasi: " + error.message);
-                                            });
-                                        } else if (result.state === 'denied') {
-                                            alert("Akses lokasi ditolak oleh browser. Silakan izinkan lokasi dari pengaturan browser.");
-                                        }
-                                    });
-                                } else {
-                                    // Fallback untuk browser yang tidak mendukung Permissions API
-                                    if (navigator.geolocation) {
-                                        navigator.geolocation.getCurrentPosition(function (position) {
-                                            const lat = position.coords.latitude;
-                                            const lng = position.coords.longitude;
-                                            setMarker(lat, lng);
-                                        }, function (error) {
-                                            alert("Gagal mendapatkan lokasi: " + error.message);
-                                        });
-                                    } else {
-                                        alert("Geolokasi tidak didukung oleh browser ini.");
-                                    }
-                                }
+        // Ambil alamat menggunakan reverse geocoding
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+            .then(response => response.json())
+            .then(data => {
+                const address = data.display_name || 'Alamat tidak ditemukan';
+                document.getElementById('alamat').value = address;
+            })
+            .catch(error => {
+                console.error('Error fetching address:', error);
+                document.getElementById('alamat').value = 'Gagal mengambil alamat';
+            });
+    }
 
-                                // Klik di peta
-                                map.on('click', function (e) {
-                                    const lat = e.latlng.lat;
-                                    const lng = e.latlng.lng;
-                                    setMarker(lat, lng);
-                                });
-                            </script>
+    // Ambil lokasi pengguna
+    if (navigator.permissions) {
+        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+            if (result.state === 'granted' || result.state === 'prompt') {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    setMarker(lat, lng);
+                }, function (error) {
+                    alert("Gagal mendapatkan lokasi: " + error.message);
+                });
+            } else {
+                alert("Akses lokasi ditolak oleh browser. Silakan izinkan lokasi dari pengaturan browser.");
+            }
+        });
+    } else {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                setMarker(lat, lng);
+            }, function (error) {
+                alert("Gagal mendapatkan lokasi: " + error.message);
+            });
+        } else {
+            alert("Geolokasi tidak didukung oleh browser ini.");
+        }
+    }
+
+    // Nonaktifkan klik di peta
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+    if (map.tap) map.tap.disable();
+</script>
+
 
                         </div>
 

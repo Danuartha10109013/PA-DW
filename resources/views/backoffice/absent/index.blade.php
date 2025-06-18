@@ -331,12 +331,116 @@
                                             | {{ $absent->status_absent }}
                                         @endif
                                         </td>
-                                        <td>{{ $absent->type }}</td>
+                                        <td>{{ $absent->type == 'wfo' ? 'Work Form Office' : 'Work Form Home'}}</td>
                                         <td>
                                             @if($absent->bukti_absent)
-                                                <a href="{{ asset('storage/' . $absent->bukti_absent) }}" target="_blank" class="btn btn-sm btn-primary">
+                                                <button class="btn btn-sm btn-primary open-modal-btn" data-id="{{ $absent->id }}">
                                                     Lihat Bukti Absensi
-                                                </a>
+                                                </button>
+                                                <div id="customModal{{ $absent->id }}" class="custom-modal">
+                                                    <div class="custom-modal-content">
+                                                        <span class="custom-close" data-id="{{ $absent->id }}">&times;</span>
+                                                        <h5>Detail Bukti Absensi</h5>
+
+                                                        <!-- Alamat -->
+                                                        <p><strong>Alamat:</strong> {{ $absent->alamat }}</p>
+
+                                                        <!-- Bukti Absensi -->
+                                                        @php
+                                                            $ext = pathinfo($absent->bukti_absent, PATHINFO_EXTENSION);
+                                                        @endphp
+                                                        @if(in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                                                            <img src="{{ asset('storage/' . $absent->bukti_absent) }}" alt="Bukti Absensi" style="max-width: 100%; border-radius: 6px;" />
+                                                        @elseif(strtolower($ext) === 'pdf')
+                                                            <iframe src="{{ asset('storage/' . $absent->bukti_absent) }}" width="100%" height="400"></iframe>
+                                                        @else
+                                                            <a href="{{ asset('storage/' . $absent->bukti_absent) }}" target="_blank">Lihat File</a>
+                                                        @endif
+
+                                                        <!-- Map -->
+                                                        <div id="map{{ $absent->id }}" style="height: 300px; margin-top: 1rem; border-radius: 8px;"></div>
+                                                    </div>
+                                                </div>
+                                                <style>
+                                                    .custom-modal {
+                                                    display: none;
+                                                    position: fixed;
+                                                    z-index: 1050;
+                                                    left: 0;
+                                                    top: 0;
+                                                    width: 100%;
+                                                    height: 100%;
+                                                    overflow: auto;
+                                                    background-color: rgba(0,0,0,0.5);
+                                                }
+
+                                                .custom-modal-content {
+                                                    background-color: #fff;
+                                                    margin: 5% auto;
+                                                    padding: 20px;
+                                                    border-radius: 8px;
+                                                    width: 80%;
+                                                    max-width: 900px;
+                                                    position: relative;
+                                                }
+
+                                                .custom-close {
+                                                    position: absolute;
+                                                    top: 15px;
+                                                    right: 20px;
+                                                    font-size: 24px;
+                                                    cursor: pointer;
+                                                }
+
+                                                </style>
+                                                <script>
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                        document.querySelectorAll(".open-modal-btn").forEach(function (btn) {
+                                                            btn.addEventListener("click", function () {
+                                                                const id = this.getAttribute("data-id");
+                                                                const modal = document.getElementById("customModal" + id);
+                                                                if (modal) {
+                                                                    modal.style.display = "block";
+
+                                                                    // Render map setelah modal muncul
+                                                                    setTimeout(() => {
+                                                                        const map = L.map('map' + id).setView([{{ $absent->latitude }}, {{ $absent->longitude }}], 16);
+                                                                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                                                            attribution: '&copy; OpenStreetMap contributors'
+                                                                        }).addTo(map);
+                                                                        L.marker([{{ $absent->latitude }}, {{ $absent->longitude }}])
+                                                                            .addTo(map)
+                                                                            .bindPopup("Lokasi Absensi")
+                                                                            .openPopup();
+                                                                    }, 100);
+                                                                }
+                                                            });
+                                                        });
+
+                                                        // Tombol close
+                                                        document.querySelectorAll(".custom-close").forEach(function (btn) {
+                                                            btn.addEventListener("click", function () {
+                                                                const id = this.getAttribute("data-id");
+                                                                const modal = document.getElementById("customModal" + id);
+                                                                if (modal) {
+                                                                    modal.style.display = "none";
+                                                                }
+                                                            });
+                                                        });
+
+                                                        // Tutup modal saat klik di luar isi modal
+                                                        window.addEventListener("click", function (event) {
+                                                            document.querySelectorAll(".custom-modal").forEach(function (modal) {
+                                                                if (event.target === modal) {
+                                                                    modal.style.display = "none";
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+                                                <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+                                                <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
                                             @else
                                                 <span class="text-muted">Tidak ada bukti</span>
                                             @endif

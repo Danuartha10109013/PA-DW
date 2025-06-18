@@ -29,7 +29,7 @@ class DashboardController extends Controller
             $users = User::get();
             $getUserNoAbsen = User::where('role_id', '!=', 1)->whereNotIn('id', $getAbsenTodays->pluck('user_id'))->get();
             $countUserNoAbsen = $getUserNoAbsen->count();
-
+            $totalUser = User::where('role_id',2)->count();
             $countAbsenToday = $this->absentRepository->countAbsenToday();
             $countCutiToday = $this->absentRepository->countCutiToday();
             $countIzinToday = $this->absentRepository->countIzinToday();
@@ -51,7 +51,7 @@ class DashboardController extends Controller
                 $absens = $this->absentRepository->getAbsenToday();
             }
 
-            return view('backoffice.dashboard.index', compact('countAbsenToday', 'countWFHToday', 'countCutiToday', 'countIzinToday', 'countSakitToday', 'countUserNoAbsen', 'category', 'absens'));
+            return view('backoffice.dashboard.index', compact('countAbsenToday', 'countWFHToday', 'countCutiToday', 'countIzinToday', 'countSakitToday', 'countUserNoAbsen', 'category', 'absens','totalUser'));
         }
 
     }

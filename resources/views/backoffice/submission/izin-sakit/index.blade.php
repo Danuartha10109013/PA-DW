@@ -287,6 +287,10 @@
                                                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-{{ $submission->id }}" title="Hapus">
                                                     <i class="fa fa-trash"></i> 
                                                 </button>
+                                                 @else
+                                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-{{ $submission->id }}" title="Hapus">
+                                                    <i class="fa fa-trash"></i> 
+                                            </button>
                                             @endif
                                         @else
                                             @if ($submission->status != "Disetujui")
@@ -301,6 +305,7 @@
                                                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-{{ $submission->id }}" title="Hapus">
                                                     <i class="fa fa-trash"></i> Hapus
                                                 </button>
+                                           
                                             @endif
                                         @endif
                                     </td>

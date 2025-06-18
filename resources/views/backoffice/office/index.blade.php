@@ -38,16 +38,16 @@
                 <div class="card-header">
                     <h3 class="card-title">Kantor / QR Code</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                        {{-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#download" title="Unduh">
                             <span><i class="fa fa-download"></i></span>
-                        </button>
+                        </button> --}}
                         @include('backoffice.office.modal.download')
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                        {{-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#generate" title="Generate">
                             <span><i class="fa fa-qrcode"></i></span>
                         </button>
-                        @include('backoffice.office.modal.generate')
+                        @include('backoffice.office.modal.generate') --}}
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#edit-{{ $office->id }}" title="Ubah">
                             <span><i class="fa fa-edit"></i></span>

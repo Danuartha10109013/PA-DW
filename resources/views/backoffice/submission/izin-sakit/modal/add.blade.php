@@ -41,8 +41,8 @@
                             </div>
                             <div class="form-group">
                                 <label style="color: black;">Tipe <span class="text-danger">*</span></label>
-                                <select name="type" class="form-control @if($errors->has('type')) is-invalid @endif" required
-                                oninvalid="this.setCustomValidity('Tipe harus diisi')" oninput="this.setCustomValidity('')">
+                                <select name="type" id="typeSelect" class="form-control @if($errors->has('type')) is-invalid @endif" required
+                                    oninvalid="this.setCustomValidity('Tipe harus diisi')" oninput="this.setCustomValidity('')">
                                     <option value="">-- Pilih tipe pengajuan --</option>
                                     <option value="sakit">Sakit</option>
                                     <option value="izin">Izin</option>
@@ -59,10 +59,10 @@
                                 <small class="help-block" style="color: red">{{ $errors->first('description') }}</small>
                                 @endif
                             </div>
-                            <div class="form-group" id="skd">
-                                <label for="skd">Surat Keterangan Dokter</label>
-                                <input type="file" name="skd" class="form-control" accept="application/pdf">
-                                <small>Jika tipe pengajuan sakit, silahkan upload Surat Keterangan Dokter</small>
+                            <div class="form-group" id="skdGroup" style="display: none;">
+                                <label for="skd">Surat Keterangan Dokter <span class="text-danger">*</span></label>
+                                <input type="file" name="skd" id="skdInput" class="form-control" accept="application/pdf">
+                                <small>Jika tipe pengajuan sakit, silakan upload Surat Keterangan Dokter</small>
                             </div>
 
                         </div>
@@ -77,3 +77,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const typeSelect = document.getElementById('typeSelect');
+        const skdGroup = document.getElementById('skdGroup');
+        const skdInput = document.getElementById('skdInput');
+
+        function updateSKDVisibility() {
+            if (typeSelect.value === 'sakit') {
+                skdGroup.style.display = 'block';
+                skdInput.setAttribute('required', true);
+            } else {
+                skdGroup.style.display = 'none';
+                skdInput.removeAttribute('required');
+                skdInput.value = ""; // optional: reset input saat disembunyikan
+            }
+        }
+
+        // Initial check in case old form data is loaded
+        updateSKDVisibility();
+
+        // Update on change
+        typeSelect.addEventListener('change', updateSKDVisibility);
+    });
+</script>
+

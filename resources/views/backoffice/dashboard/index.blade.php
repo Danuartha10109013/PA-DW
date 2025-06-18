@@ -78,45 +78,52 @@
           @endif
 
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-4">
               <div class="card bg-success">
                 <div class="card-body">
                   <h3>Hadir: <b>{{ $countAbsenToday }}</b> </h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <div class="card bg-success">
                 <div class="card-body">
-                  <h3>WFH: <b>{{ $countWFHToday }}</b></h3>
+                  <h3>Work Form Home: <b>{{ $countWFHToday }}</b></h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <div class="card bg-danger">
                 <div class="card-body">
                   <h4>Belum Hadir: <b>{{ $countUserNoAbsen }}</b> </h4>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <div class="card card-outline card-primary">
                 <div class="card-body">
                   <h3>Cuti: <b>{{ $countCutiToday }}</b></h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <div class="card card-outline card-primary">
                 <div class="card-body">
                   <h3>Izin: <b>{{ $countIzinToday }}</b></h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <div class="card card-outline card-primary">
                 <div class="card-body">
                   <h3>Sakit: <b>{{ $countSakitToday }}</b></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card card-outline card-primary">
+                <div class="card-body">
+                  <h3>Total Pegawai: <b>{{ $totalUser }}</b></h3>
                 </div>
               </div>
             </div>
