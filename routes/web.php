@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [AbsentController::class, 'index']);
             Route::get('/pdf/{bulan}/{tahun}', [AbsentController::class, 'pdfBulanTahun']);
             Route::get('/pdf', [AbsentController::class, 'pdf']);
+            Route::get('/pdf/{id}/{bulan}/{tahun}', [AbsentController::class, 'pdfuser']);
 
             // grup absensi_id
             Route::group(['prefix' => '{absensi_id}'], function () {
@@ -142,6 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/add', [OfficeController::class, 'add']);
             Route::post('/create', [OfficeController::class, 'create']);
             Route::get('/generate', [OfficeController::class, 'generate']);
+            Route::get('/refresh-qrcode', [OfficeController::class, 'refreshQrCode']);
             Route::get('/download', [OfficeController::class, 'download']);
 
             // grup office_id

@@ -155,7 +155,7 @@
                                                 <h3>
                                                     @if ($absentToday)
                                                         @if ($absentToday->start && $absentToday->end)
-                                                            <i class="fa fa-check"></i> Anda Sudah Absen
+                                                            <i class="fa fa-check"></i> Anda Sudah Presensi
                                                         @else
                                                             <i class="fa fa-sign-out"></i> Presensi Pulang
                                                         @endif

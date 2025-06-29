@@ -233,9 +233,10 @@
                                     <td>{{  \Carbon\Carbon::parse($submission->start_date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
                                     <td>{{  \Carbon\Carbon::parse($submission->end_date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
                                     <td>{{ $submission->total_day }}</td>
+                                    
                                     <td>
                                         <button class="badge badge-light" data-toggle="modal" data-target="#description-{{ $submission->id }}" title="Alasan">
-                                            <i class="fa fa-eye"></i>
+                                            <i class="fa fa-eye"></i> Lihat alasan
                                         </button>
                                     </td>
                                     <td>

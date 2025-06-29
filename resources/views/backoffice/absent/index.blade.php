@@ -94,7 +94,7 @@
                         
                     </div>
 
-                    {{-- <h3 class="card-title">Absensi</h3>
+                    {{-- <h3 class="card-title">Presensi</h3>
 
                     <div class="card-tools">
                         
@@ -292,7 +292,7 @@
                                     <th>Jam Pulang</th>
                                     <th>Status</th>
                                     <th>Metode Presensi</th>
-                                    <th>Bukti Absensi</th>
+                                    <th>Bukti Presensi</th>
                                     {{-- <th>Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -335,12 +335,12 @@
                                         <td>
                                             @if($absent->bukti_absent)
                                                 <button class="btn btn-sm btn-primary open-modal-btn" data-id="{{ $absent->id }}">
-                                                    Lihat Bukti Absensi
+                                                    Lihat Bukti Presensi
                                                 </button>
                                                 <div id="customModal{{ $absent->id }}" class="custom-modal">
                                                     <div class="custom-modal-content">
                                                         <span class="custom-close" data-id="{{ $absent->id }}">&times;</span>
-                                                        <h5>Detail Bukti Absensi</h5>
+                                                        <h5>Detail Bukti Presensi</h5>
 
                                                         <!-- Alamat -->
                                                         <p><strong>Alamat:</strong> {{ $absent->alamat }}</p>
@@ -410,7 +410,7 @@
                                                                         }).addTo(map);
                                                                         L.marker([{{ $absent->latitude }}, {{ $absent->longitude }}])
                                                                             .addTo(map)
-                                                                            .bindPopup("Lokasi Absensi")
+                                                                            .bindPopup("Lokasi Presensi")
                                                                             .openPopup();
                                                                     }, 100);
                                                                 }

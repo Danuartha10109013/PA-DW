@@ -6,11 +6,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Absensi Saya</h1>
+          <h1>Presensi Saya</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Absensi Saya</li>
+            <li class="breadcrumb-item active">Presensi Saya</li>
           </ol>
         </div>
       </div>
@@ -29,7 +29,7 @@
                         <form action="" class="form-inline">
                             <div class="pr-4" style="border-right: 3px solid #0d6efd">
                                 <h3 class="card-title">
-                                    <b>Absensi</b>
+                                    <b>Presensi</b>
                                 </h3>
                             </div>
 
@@ -85,7 +85,7 @@
                         
                     </div>
 
-                    {{-- <h3 class="card-title">Absensi</h3>
+                    {{-- <h3 class="card-title">Presensi</h3>
 
                     <div class="card-tools">
                         
