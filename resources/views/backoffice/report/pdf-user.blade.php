@@ -206,7 +206,7 @@
         </tr>
     </table>
 
-    <div class="rekap-title">Rekapitulasi Absensi - {{ $user->name }}</div>
+    <div class="rekap-title">Rekap Presensi </div>
     <table class="rekap-table">
         <tr><th>WFO - Tepat Waktu</th><td>{{ $tepat_waktu_wfo }}</td></tr>
         <tr><th>WFO - Telat</th><td>{{ $telat_wfo }}</td></tr>

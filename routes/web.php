@@ -143,6 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/add', [OfficeController::class, 'add']);
             Route::post('/create', [OfficeController::class, 'create']);
             Route::get('/generate', [OfficeController::class, 'generate']);
+            Route::get('/refresh-qrcode', [OfficeController::class, 'refreshQrCode']);
             Route::get('/download', [OfficeController::class, 'download']);
 
             // grup office_id

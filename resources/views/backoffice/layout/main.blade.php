@@ -52,7 +52,7 @@ crossorigin=""></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-  <script>
+  {{-- <script>
     document.addEventListener("DOMContentLoaded", function () {
         const lastRun = localStorage.getItem('last_generate_date');
         const today = new Date().toISOString().slice(0, 10); // format YYYY-MM-DD
@@ -73,28 +73,31 @@ crossorigin=""></script>
                 });
         }
     });
-</script>
+</script> --}}
+
+
+
 {{-- <script>
-    function generateQRCode() {
-        fetch("/backoffice/office/generate")
-            .then(response => {
-                if (response.ok) {
-                    console.log("Generate berhasil dijalankan pada " + new Date().toLocaleTimeString());
-                } else {
-                    console.error("Gagal generate:", response.status);
-                }
+    function updateQRCode() {
+        fetch('/backoffice/office/generate')
+            .then(response => response.json())
+            .then(data => {
+                const qrCodeContainer = document.getElementById('qrcode-container');
+                qrCodeContainer.innerHTML = '';
+
+                // Render ulang QR menggunakan backend endpoint
+                fetch(`/qrcode/render?qrcode=${encodeURIComponent(data.qrcode)}`)
+                    .then(res => res.text())
+                    .then(svg => {
+                        qrCodeContainer.innerHTML = svg;
+                    });
             })
-            .catch(error => {
-                console.error("Error saat generate:", error);
-            });
+            .catch(error => console.error('QR refresh error:', error));
     }
 
-    // Jalankan pertama kali saat halaman dimuat
-    generateQRCode();
-
-    // Jalankan setiap 60 detik (60000 ms)
-    setInterval(generateQRCode, 60000);
+    setInterval(updateQRCode, 5000); // update setiap 30 detik
 </script> --}}
+
 
     @include('backoffice.layout.navbar')
 
