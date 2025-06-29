@@ -1,14 +1,25 @@
 <div class="modal fade" id="detail-{{ $user->id }}">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" style="color: black">Detail Karyawan</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <h4 class="modal-title text-dark mb-0">Detail Karyawan |</h4>
+                    @php
+                        $bulan = request('bulan'); // ex: 07
+                        $tahun = request('tahun'); // ex: 2025
+                        // dd($tahun);
+                    @endphp
+                    <a href="/backoffice/absensi/pdf/{{$user->id}}/{{$bulan}}/{{$tahun}}" class="btn btn-danger btn-sm ml-3" target="_blank" title="Download PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 1.4rem">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
 
+            <div class="modal-body">
+                
                 <div class="card card-outline card-primary">
                     <div class="card-body">
                         <div class=" text-center">
@@ -130,11 +141,7 @@
                                <strong>Rekapitulasi Absensi - {{ $user->name }}</strong>
                            </div>
                            <div class="card-body table-responsive">
-                            @php
-                                $bulan = request('bulan'); // ex: 07
-                                $tahun = request('tahun'); // ex: 2025
-                                // dd($tahun);
-                            @endphp
+                            
                                @php
                                     $tepat_waktu_wfo = \App\Models\Absent::where('user_id', $user->id)
                                         ->where('status', 'hadir')
@@ -229,6 +236,7 @@
                                            <th colspan="2">Absensi WFO</th>
                                            <th colspan="2">Absensi WFH</th>
                                            <th colspan="2">Cuti</th>
+                                           <th colspan="1" rowspan="2">Sisa Cuti</th>
                                            <th colspan="2">Sakit</th>
                                            <th colspan="2">Izin</th>
                                            <th colspan="2">Pengajuan WFH</th>
@@ -257,6 +265,9 @@
                                            <td>{{ $telat_wfh }}</td>
                                            <td>{{ $cuti_setuju }}</td>
                                            <td>{{ $cuti_tolak }}</td>
+                                           <td>
+                                                {{ ( 12 - $user->countCutiPerTahun($user->id, now()->format('Y')) ) }} hari
+                                           </td>
                                            <td>{{ $sakit_setuju }}</td>
                                            <td>{{ $sakit_tolak }}</td>
                                            <td>{{ $izin_setuju }}</td>

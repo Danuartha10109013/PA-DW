@@ -337,6 +337,16 @@ class AbsentController extends Controller
         return $pdf->stream('absent.pdf');
     }
 
+    public function pdfuser($id){
+        $user = User::find($id);
+        $office = $this->officeRepository->getAll();
+
+        $pdf = Pdf::loadView('backoffice.report.pdf-user', compact(['user','office']));
+
+        return $pdf->stream('absent.pdf-user');
+
+    }
+
     public function reportPdfBulanTahun(Request $request, $bulan, $tahun)
     {
         $absents = $this->absentRepository->getAll($request);

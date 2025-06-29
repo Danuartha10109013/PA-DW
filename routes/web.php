@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [AbsentController::class, 'index']);
             Route::get('/pdf/{bulan}/{tahun}', [AbsentController::class, 'pdfBulanTahun']);
             Route::get('/pdf', [AbsentController::class, 'pdf']);
+            Route::get('/pdf/{id}/{bulan}/{tahun}', [AbsentController::class, 'pdfuser']);
 
             // grup absensi_id
             Route::group(['prefix' => '{absensi_id}'], function () {
