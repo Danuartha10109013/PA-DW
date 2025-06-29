@@ -75,7 +75,7 @@
         
 
         @if (Auth::user()->role_id == 1)
-            <li class="sidebar-header">DATA PENGAJUAN ABSEN</li>
+            <li class="sidebar-header">DATA PENGAJUAN PRESENSI</li>
 
             <li class="{{ request()->is('backoffice/cuti', 'backoffice/cuti/*') ? 'active' : '' }}">
                 <a href="/backoffice/cuti">

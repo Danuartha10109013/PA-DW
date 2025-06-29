@@ -6,11 +6,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Detail Absensi Saya</h1>
+          <h1>Detail Presensi Saya</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Detail Absensi Saya</li>
+            <li class="breadcrumb-item active">Detail Presensi Saya</li>
           </ol>
         </div>
       </div>
@@ -25,7 +25,7 @@
             <!-- Default box -->
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Detail Absensi</h3>
+                    <h3 class="card-title">Detail Presensi</h3>
 
                     <div class="card-tools">
                         
@@ -47,7 +47,7 @@
                         <div class="col-md-6">
                             <div class="card card-outline card-primary bg-light">
                                 <div class="card-body">
-                                    <h4 class="text-center">Lokasi Koordinat Absen</h4>
+                                    <h4 class="text-center">Lokasi Koordinat Presensi</h4>
                                     <div id="map" style="height: 400px"></div>
                                 </div>
                             </div>

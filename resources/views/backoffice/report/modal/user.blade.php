@@ -233,8 +233,8 @@
                                    <thead class="text-center bg-secondary text-white">
                                        <tr>
                                            <th rowspan="2">No</th>
-                                           <th colspan="2">Absensi WFO</th>
-                                           <th colspan="2">Absensi WFH</th>
+                                           <th colspan="2">Presensi WFO</th>
+                                           <th colspan="2">Presensi WFH</th>
                                            <th colspan="2">Cuti</th>
                                            <th colspan="1" rowspan="2">Sisa Cuti</th>
                                            <th colspan="2">Sakit</th>

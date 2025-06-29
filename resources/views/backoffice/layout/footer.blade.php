@@ -4,5 +4,5 @@
   <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.0.4
   </div> --}}
-  <strong>Absensi &copy; {{ date('Y') }}</strong>
+  <strong>Presensi &copy; {{ date('Y') }}</strong>
 </footer>

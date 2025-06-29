@@ -6,11 +6,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Absensi</h1>
+          <h1>Presensi</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Absensi</li>
+            <li class="breadcrumb-item active">Presensi</li>
           </ol>
         </div>
       </div>
@@ -197,7 +197,7 @@
                                     <th>Shift</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
-                                    {{-- <th>Bukti Absent</th> --}}
+                                    {{-- <th>Bukti Presensi</th> --}}
                                     <th>Status</th>
                                     {{-- <th>Aksi</th> --}}
                                 </tr>
@@ -240,7 +240,7 @@
                                     {{-- <td>
                                         @if($item->bukti_absent)
                                             <a href="{{ asset('storage/' . $item->bukti_absent) }}" target="_blank" class="btn btn-sm btn-primary">
-                                                Lihat Bukti Absensi
+                                                Lihat Bukti Presensi
                                             </a>
                                         @else
                                             <span class="text-muted">Tidak ada bukti</span>

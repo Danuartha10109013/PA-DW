@@ -6,11 +6,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Absen Hari Ini</h1>
+                <h1>Presensi Hari Ini</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Absen Hari Ini</li>
+                    <li class="breadcrumb-item active">Presensi Hari Ini</li>
                 </ol>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Absen</h3>
+                    <h3 class="card-title">Presensi</h3>
 
                     <div class="card-tools">
                         
@@ -95,7 +95,7 @@
                                         </button>
                                     @elseif ($absentToday->end)
                                         <button type="button" class="btn btn-success btn-block">
-                                            <span class="fa fa-check"></span> Anda Sudah Absen
+                                            <span class="fa fa-check"></span> Anda Sudah Presensi
                                         </button>
                                     @elseif ($absentToday->status != 'Absen')
                                         <button type="button" class="btn btn-success btn-block">
@@ -104,7 +104,7 @@
                                     @endif
                                 @else
                                     <button type="submit" class="btn btn-primary btn-block">
-                                        <span class="fa fa-sign-in"></span> Absen Masuk
+                                        <span class="fa fa-sign-in"></span> Presensi Masuk
                                     </button>
                                 @endif
                             </form>
@@ -124,7 +124,7 @@
                                 <div class="col-md-4">
                                     <div class="card bg-success">
                                         <div class="card-body">
-                                            <h3>Absen Masuk</h3>
+                                            <h3>Presensi Masuk</h3>
                                             @if ($absentToday)
                                                 @if ($absentToday->start == null)
                                                     @if ($absentToday->status != 'Absen')
@@ -164,7 +164,7 @@
                                 <div class="col-md-4">
                                     <div class="card bg-info">
                                         <div class="card-body">
-                                            <h3>Koordinat Absen</h3>
+                                            <h3>Koordinat Presensi</h3>
                                             {{ auth()->user()->office->longitude }}, {{ auth()->user()->office->latitude }}
                                         </div>
                                     </div>

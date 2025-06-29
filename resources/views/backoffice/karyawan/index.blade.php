@@ -103,8 +103,8 @@
             <div class="card shadow-lg border-start border-4 border-primary h-100 hover-shadow transition-ease">
                 <div class="card-body text-center">
                     <i class="fas fa-building fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title text-dark">Absen WFO</h5>
-                    <p class="card-text text-muted">Klik di sini untuk melakukan absensi di kantor</p>
+                    <h5 class="card-title text-dark">Presensi WFO</h5>
+                    <p class="card-text text-muted">Klik di sini untuk melakukan Presensi di kantor</p>
                 </div>
             </div>
         </a>
@@ -114,8 +114,8 @@
             <div class="card shadow-lg border-start border-4 border-success h-100 hover-shadow transition-ease">
                 <div class="card-body text-center">
                     <i class="fas fa-laptop-house fa-3x text-success mb-3"></i>
-                    <h5 class="card-title text-dark">Absen WFH</h5>
-                    <p class="card-text text-muted">Klik di sini untuk melakukan absensi dari rumah</p>
+                    <h5 class="card-title text-dark">Presensi WFH</h5>
+                    <p class="card-text text-muted">Klik di sini untuk melakukan Presensi dari rumah</p>
                 </div>
             </div>
         </a>
