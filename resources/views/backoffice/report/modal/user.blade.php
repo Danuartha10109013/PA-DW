@@ -138,7 +138,7 @@
                         </div>  
                         <div class="card card-outline card-primary bg-light shadow">
                            <div class="card-header text-center bg-primary text-white">
-                               <strong>Rekapitulasi Absensi - {{ $user->name }}</strong>
+                               <strong>Rekapitulasi Presensi - {{ $user->name }}</strong>
                            </div>
                            <div class="card-body table-responsive">
                             
