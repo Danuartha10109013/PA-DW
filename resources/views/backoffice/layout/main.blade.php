@@ -52,7 +52,7 @@ crossorigin=""></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-  {{-- <script>
+   <!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
         const lastRun = localStorage.getItem('last_generate_date');
         const today = new Date().toISOString().slice(0, 10); // format YYYY-MM-DD
@@ -73,7 +73,7 @@ crossorigin=""></script>
                 });
         }
     });
-</script> --}}
+</script> -->
 
 
 
@@ -95,7 +95,7 @@ crossorigin=""></script>
             .catch(error => console.error('QR refresh error:', error));
     }
 
-    setInterval(updateQRCode, 30000); // update setiap 30 detik
+    setInterval(updateQRCode, 5000S); // update setiap 30 detik
 </script>
 
 
