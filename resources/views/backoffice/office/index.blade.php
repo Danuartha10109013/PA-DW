@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                            <script>
+                            {{-- <script>
                                 // Fungsi untuk generate QR code
                                 function generateQRCode() {
                                     fetch("/backoffice/office/generate")
@@ -108,7 +108,7 @@
                                 setTimeout(() => {
                                     location.reload();
                                 }, 300000);
-                            </script>
+                            </script> --}}
 
 
                         <div class="col-md-8">

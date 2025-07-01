@@ -77,7 +77,7 @@ crossorigin=""></script>
 
 
 
-{{-- <script>
+<script>
     function updateQRCode() {
         fetch('/backoffice/office/generate')
             .then(response => response.json())
@@ -95,8 +95,8 @@ crossorigin=""></script>
             .catch(error => console.error('QR refresh error:', error));
     }
 
-    setInterval(updateQRCode, 5000); // update setiap 30 detik
-</script> --}}
+    setInterval(updateQRCode, 30000); // update setiap 30 detik
+</script>
 
 
     @include('backoffice.layout.navbar')
