@@ -124,29 +124,6 @@
                                 <form action="/backoffice/wfh/wfh-store" method="POST" id="form" enctype="multipart/form-data">
                                     @csrf
 
-                                    {{-- @if ($absentToday)
-                                        @if ($absentToday->status == 'hadir')
-                                            <input type="hidden" name="shift_id" value="{{ $absentToday->shift_id }}">
-                                            <input type="text" value="Shift {{ $absentToday->shift->name }} | {{ $absentToday->shift->start }} - {{ $absentToday->shift->end }}" disabled class="form-control">
-                                        @else
-                                            <input type="text" value="Anda sedang {{ $absentToday->status }}" disabled class="form-control">
-                                        @endif
-                                    @else
-                                        <select name="shift_id" class="form-control @if ($errors->has('shift_id')) is-invalid @endif" required id="shift"
-                                            oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Pilihan shift harus diisi')">
-                                            <option value="">-- Pilihan Shift --</option>
-                                            @foreach ($shifts as $shift)
-                                            <option value="{{ $shift->id }}">Shift {{ $shift->name }} | {{ $shift->start }} - {{ $shift->end }}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('shift_id'))
-                                            <h5 class="text-danger">{{ $errors->first('shift_id') }}</small>
-                                        @endif
-                                    @endif --}}
-                                    
-                                    {{-- <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-3">
-                                        <img src="{{ asset('images/favicon.jpg') }}" alt="qr-code" class="img-fluid rounded" style="width: 100%; height: 300px;">
-                                    </div> --}}
 
                                     @if ($absentToday)
                                         @if ($absentToday->status == 'wfh')
@@ -158,12 +135,28 @@
                                                             <i class="fa fa-check"></i> Anda Sudah Presensi
                                                         @else
                                                             <i class="fa fa-sign-out"></i> Presensi Pulang
+                                           
                                                         @endif
                                                     @else
                                                         <i class="fa fa-sign-in"></i> Presensi Masuk
                                                     @endif
                                                 </h3>
                                             </button>
+                                                                                               <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+                                                            <div class="form-group mb-3">
+                                                                    <label for="latitude">Latitude</label>
+                                                                    <input type="text" id="latitude" name="latitude" class="form-control" readonly>
+                                                                </div>
+
+                                                                <div class="form-group mb-3">
+                                                                    <label for="longitude">Longitude</label>
+                                                                    <input type="text" id="longitude" name="longitude" class="form-control" readonly>
+                                                                </div>
+
+                                                                <div class="form-group mb-3">
+                                                                    <label for="alamat">Alamat Lengkap</label>
+                                                                    <textarea id="alamat" name="alamat" class="form-control" rows="2" readonly></textarea>
+                                                                </div>
                                             @include('backoffice.karyawan.absent.modal.wfh-add')
                                         @else
                                             <button type="button" class="btn btn-success btn-sm btn-block mt-2">
@@ -171,75 +164,58 @@
                                             </button>
                                         @endif
                                     @else
-                                        {{-- <button type="button" class="btn btn-success btn-sm btn-block mt-2" data-toggle="modal"
-                                            data-target="#wfh-add" title="Tambah">
-                                            <h3>
-                                                <i class="fa fa-sign-in"></i> Presensi Masuk
-                                            </h3>
-                                        </button>
-                                        @include('backoffice.karyawan.absent.modal.wfh-add') --}}
-
-                                        {{-- <div class="form-group">
-                                            <label style="color: black;">Nama <span class="text-danger">*</span></label>
-                                            <input type="text"  name="name" class="form-control @if($errors->has('name')) is-invalid @endif" placeholder="Nama" value="{{ old('name') }}"
-                                            required oninvalid="this.setCustomValidity('Nama harus diisi')"
-                                            oninput="this.setCustomValidity('')">
-                                            @if($errors->has('name'))
-                                            <small class="help-block" style="color: red">{{ $errors->first('name') }}</small>
-                                            @endif
-                                        </div> --}}
 
                                             <style>
-                                            #camera-wrapper {
-                                                position: relative;
-                                                width: 100%;
-                                                max-width: 320px;
-                                                margin: auto;
-                                            }
+                                                #camera-wrapper {
+                                                    position: relative;
+                                                    width: 100%;
+                                                    max-width: 320px;
+                                                    margin: auto;
+                                                }
 
-                                            #camera {
-                                                width: 100%;
-                                                border-radius: 12px;
-                                                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                                            }
+                                                #camera {
+                                                    width: 100%;
+                                                    border-radius: 12px;
+                                                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                                }
 
-                                            #countdown {
-                                                position: absolute;
-                                                top: 50%;
-                                                left: 50%;
-                                                font-size: 48px;
-                                                font-weight: bold;
-                                                transform: translate(-50%, -50%);
-                                                color: red;
-                                                display: none;
-                                                background-color: rgba(255, 255, 255, 0.7);
-                                                padding: 10px 20px;
-                                                border-radius: 8px;
-                                            }
+                                                #countdown {
+                                                    position: absolute;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    font-size: 48px;
+                                                    font-weight: bold;
+                                                    transform: translate(-50%, -50%);
+                                                    color: red;
+                                                    display: none;
+                                                    background-color: rgba(255, 255, 255, 0.7);
+                                                    padding: 10px 20px;
+                                                    border-radius: 8px;
+                                                }
 
-                                            #capture-btn {
-                                                margin-top: 10px;
-                                                width: 100%;
-                                                padding: 10px;
-                                                background-color: #007bff;
-                                                border: none;
-                                                color: white;
-                                                border-radius: 8px;
-                                                font-size: 16px;
-                                                cursor: pointer;
-                                                transition: background 0.3s ease;
-                                            }
+                                                #capture-btn {
+                                                    margin-top: 10px;
+                                                    width: 100%;
+                                                    padding: 10px;
+                                                    background-color: #007bff;
+                                                    border: none;
+                                                    color: white;
+                                                    border-radius: 8px;
+                                                    font-size: 16px;
+                                                    cursor: pointer;
+                                                    transition: background 0.3s ease;
+                                                }
 
-                                            #capture-btn:hover {
-                                                background-color: #0056b3;
-                                            }
+                                                #capture-btn:hover {
+                                                    background-color: #0056b3;
+                                                }
 
-                                            #preview-img {
-                                                margin-top: 10px;
-                                                width: 100%;
-                                                border-radius: 8px;
-                                                display: none;
-                                            }
+                                                #preview-img {
+                                                    margin-top: 10px;
+                                                    width: 100%;
+                                                    border-radius: 8px;
+                                                    display: none;
+                                                }
                                             </style>
 
                                             <div class="mb-3" id="camera-wrapper">
@@ -294,35 +270,14 @@
                                                 }, 1000);
                                             });
                                             </script>
-
-                                        
-                                        {{-- <form action="/backoffice/wfh/wfh-store" method="POST">
-                                        @csrf --}}
-                                            {{-- <div class="card">
-                                                <div class="card-header">
-                                                    <h3 class="card-title">Regular class session</h3>
-                                                </div>
-                                                <div class="card-body"> --}}
                                                     @if ($absentToday)
                                                         
                                                     @else
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group ml-4">
                                                                 <input type="hidden" class="form-check-input" name="status" value="hadir" id="hadir" required>
-                                                                {{-- <label for="hadir">Hadir</label> --}}
                                                             </div>
-                                                            {{-- <div class="form-group">
-                                                                <input type="radio" class="form-check-input" name="status" value="hadir" id="terlambat" required>
-                                                                <label for="terlambat">Terlambat</label>
-                                                            </div> --}}
-                                                            {{-- <div class="form-group">
-                                                                <input type="radio" class="form-check-input" name="status" value="izin" id="izin" required>
-                                                                <label for="izin">Izin</label>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input type="radio" class="form-check-input" name="status" value="tidak hadir" id="tidak hadir" required>
-                                                                <label for="tidak hadir">tidak hadir</label>
-                                                            </div> --}}
+                                                            
                                                         </div>
                                                     @endif
 
@@ -413,7 +368,7 @@
                                             @if ($absentToday)
                                                 @if ($absentToday->status == 'wfh')
                                                     @if ($absentToday->end == null)
-                                                        Belum Absen
+                                                        Belum Presensi
                                                     @else
                                                         {{ $absentToday->end }}
                                                     @endif
@@ -455,80 +410,80 @@
                             </div>
                             <div id="map" style="height: 400px"></div>
                            <script>
-    let map = L.map('map', { zoomControl: false, dragging: false }).setView([-6.200000, 106.816666], 13); // Default Jakarta
-    let marker;
+                                let map = L.map('map', { zoomControl: false, dragging: false }).setView([-6.200000, 106.816666], 13); // Default Jakarta
+                                let marker;
 
-    // Tile Layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+                                // Tile Layer
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; OpenStreetMap contributors'
+                                }).addTo(map);
 
-    // Fungsi untuk men-set marker dan input lokasi
-    function setMarker(lat, lng) {
-        document.getElementById('latitude').value = lat.toFixed(6);
-        document.getElementById('longitude').value = lng.toFixed(6);
+                                // Fungsi untuk men-set marker dan input lokasi
+                                function setMarker(lat, lng) {
+                                    document.getElementById('latitude').value = lat.toFixed(6);
+                                    document.getElementById('longitude').value = lng.toFixed(6);
 
-        const latlng = L.latLng(lat, lng);
+                                    const latlng = L.latLng(lat, lng);
 
-        if (marker) {
-            marker.setLatLng(latlng);
-        } else {
-            marker = L.marker(latlng).addTo(map);
-        }
+                                    if (marker) {
+                                        marker.setLatLng(latlng);
+                                    } else {
+                                        marker = L.marker(latlng).addTo(map);
+                                    }
 
-        map.setView(latlng, 16);
+                                    map.setView(latlng, 16);
 
-        // Ambil alamat menggunakan reverse geocoding
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-            .then(response => response.json())
-            .then(data => {
-                const address = data.display_name || 'Alamat tidak ditemukan';
-                document.getElementById('alamat').value = address;
-            })
-            .catch(error => {
-                console.error('Error fetching address:', error);
-                document.getElementById('alamat').value = 'Gagal mengambil alamat';
-            });
-    }
+                                    // Ambil alamat menggunakan reverse geocoding
+                                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            const address = data.display_name || 'Alamat tidak ditemukan';
+                                            document.getElementById('alamat').value = address;
+                                        })
+                                        .catch(error => {
+                                            console.error('Error fetching address:', error);
+                                            document.getElementById('alamat').value = 'Gagal mengambil alamat';
+                                        });
+                                }
 
-    // Ambil lokasi pengguna
-    if (navigator.permissions) {
-        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-            if (result.state === 'granted' || result.state === 'prompt') {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    setMarker(lat, lng);
-                }, function (error) {
-                    alert("Gagal mendapatkan lokasi: " + error.message);
-                });
-            } else {
-                alert("Akses lokasi ditolak oleh browser. Silakan izinkan lokasi dari pengaturan browser.");
-            }
-        });
-    } else {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                setMarker(lat, lng);
-            }, function (error) {
-                alert("Gagal mendapatkan lokasi: " + error.message);
-            });
-        } else {
-            alert("Geolokasi tidak didukung oleh browser ini.");
-        }
-    }
+                                // Ambil lokasi pengguna
+                                if (navigator.permissions) {
+                                    navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+                                        if (result.state === 'granted' || result.state === 'prompt') {
+                                            navigator.geolocation.getCurrentPosition(function (position) {
+                                                const lat = position.coords.latitude;
+                                                const lng = position.coords.longitude;
+                                                setMarker(lat, lng);
+                                            }, function (error) {
+                                                alert("Gagal mendapatkan lokasi: " + error.message);
+                                            });
+                                        } else {
+                                            alert("Akses lokasi ditolak oleh browser. Silakan izinkan lokasi dari pengaturan browser.");
+                                        }
+                                    });
+                                } else {
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(function (position) {
+                                            const lat = position.coords.latitude;
+                                            const lng = position.coords.longitude;
+                                            setMarker(lat, lng);
+                                        }, function (error) {
+                                            alert("Gagal mendapatkan lokasi: " + error.message);
+                                        });
+                                    } else {
+                                        alert("Geolokasi tidak didukung oleh browser ini.");
+                                    }
+                                }
 
-    // Nonaktifkan klik di peta
-    map.dragging.disable();
-    map.touchZoom.disable();
-    map.doubleClickZoom.disable();
-    map.scrollWheelZoom.disable();
-    map.boxZoom.disable();
-    map.keyboard.disable();
-    if (map.tap) map.tap.disable();
-</script>
+                                // Nonaktifkan klik di peta
+                                map.dragging.disable();
+                                map.touchZoom.disable();
+                                map.doubleClickZoom.disable();
+                                map.scrollWheelZoom.disable();
+                                map.boxZoom.disable();
+                                map.keyboard.disable();
+                                if (map.tap) map.tap.disable();
+                            </script>
 
 
                         </div>

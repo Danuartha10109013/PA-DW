@@ -262,7 +262,7 @@ class AbsentController extends Controller
         $getShift = $this->shiftRepository->getById($shift);
         $jam = now()->format('H:i:s');
         $checkAbsenToday = $this->absentRepository->getAbsenTodayByUserId();
-
+        // dd($request->all());
         if(!$request->longitude && !$request->latitude){
             return redirect()->back()->with('error','Lokasi Diperlukan untuk melakukan absen!');
         }
