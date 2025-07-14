@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/verify/{token}', [AuthController::class, 'verify']);
 Route::get('/qrCode', [OfficeController::class, 'qrcode']);
+Route::get('/qrcode/render', [OfficeController::class, 'render']);
+
 
 // route middleware guest
 Route::middleware(['guest'])->group(function () {
