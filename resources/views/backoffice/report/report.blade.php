@@ -195,7 +195,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        @if (auth()->user()->role_id == 1)
+                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 3)
                                             <th>Karyawan</th>
                                         @endif
                                         @for ($i = $startDate; $i <= $endDate; $i++)

@@ -331,7 +331,18 @@
                                             | {{ $absent->status_absent }}
                                         @endif
                                         </td>
-                                        <td>{{ $absent->type == 'wfo' ? 'Work Form Office' : 'Work Form Home'}}</td>
+                                        <td>
+                                            {{
+                                                $absent->type == 'wfo' ? 'Work Form Office' :
+                                                ($absent->type == 'wfh' ? 'Work From Home' :
+                                                ($absent->type == null ?
+                                                ($absent->status == 'cuti' ? 'Cuti' :
+                                                ($absent->status == 'izin' ? 'Izin' :
+                                                ($absent->status == 'sakit' ? 'Sakit' : 'Lainnya')))
+                                                : $absent->type))
+                                            }}
+                                        </td>
+
                                         <td>
                                             @if($absent->bukti_absent)
                                                 <button class="btn btn-sm btn-primary open-modal-btn" data-id="{{ $absent->id }}">

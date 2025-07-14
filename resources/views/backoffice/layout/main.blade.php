@@ -95,7 +95,7 @@ crossorigin=""></script>
             .catch(error => console.error('QR refresh error:', error));
     }
 
-    setInterval(updateQRCode, 5000S); // update setiap 30 detik
+    setInterval(updateQRCode, 300000); // update setiap 30 detik
 </script>
 
 

@@ -82,33 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- <script>
-                                // Fungsi untuk generate QR code
-                                function generateQRCode() {
-                                    fetch("/backoffice/office/generate")
-                                        .then(response => {
-                                            if (response.ok) {
-                                                console.log("Generate berhasil pada " + new Date().toLocaleTimeString());
-                                            } else {
-                                                console.error("Gagal generate:", response.status);
-                                            }
-                                        })
-                                        .catch(error => {
-                                            console.error("Error saat generate:", error);
-                                        });
-                                }
-
-                                // Jalankan pertama kali saat halaman dimuat
-                                generateQRCode();
-
-                                // Jalankan generate setiap 5 menit (300.000 ms)
-                                setInterval(generateQRCode, 300000);
-
-                                // Refresh halaman setelah 5 menit
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 300000);
-                            </script>  -->
+                            
 
 
                         <div class="col-md-8">
