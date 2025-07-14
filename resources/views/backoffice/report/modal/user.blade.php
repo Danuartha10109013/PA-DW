@@ -150,12 +150,29 @@
                                         ->whereYear('created_at', $tahun)
                                         ->count();
 
+                                    $waktu_absen = \App\Models\Shift::find(1);
                                     $telat_wfo = \App\Models\Absent::where('user_id', $user->id)
                                         ->where('status', 'hadir')
                                         ->where('status_absent', 'telat')
                                         ->whereMonth('created_at', $bulan)
                                         ->whereYear('created_at', $tahun)
-                                        ->count();
+                                        ->get();
+                                    foreach ($telat_wfo as $t) {
+                                        // Waktu shift masuk + 10 menit
+                                        $batas_telat = strtotime($waktu_absen->start) + (10 * 60);
+
+                                        // Waktu absen pegawai
+                                        $waktu_masuk = strtotime($t->start);
+
+                                        if ($waktu_masuk > $batas_telat) {
+                                            $total_telat = $waktu_masuk - $batas_telat;
+
+                                            // Konversi ke menit
+                                            $telat_menit = floor($total_telat / 60);
+
+                                        }
+                                    }
+
 
                                     $tepat_waktu_wfh = \App\Models\Absent::where('user_id', $user->id)
                                         ->where('status', 'wfh')
@@ -169,7 +186,29 @@
                                         ->where('status_absent', 'telat')
                                         ->whereMonth('created_at', $bulan)
                                         ->whereYear('created_at', $tahun)
-                                        ->count();
+                                        ->get();
+                                    $waktu_absen = \App\Models\Shift::find(1);
+                                            $telat_menit_wfh = 0;
+
+                                    foreach ($telat_wfh as $th) {
+                                        // Waktu shift masuk + 10 menit
+
+                                        $batas_telat_wfh = strtotime($waktu_absen->start) + (10 * 60);
+
+                                        // Waktu absen pegawai
+                                        $waktu_masuk_wfh = strtotime($th->start);
+
+                                        if ($waktu_masuk_wfh > $batas_telat_wfh) {
+                                            $total_telat_wfh = $waktu_masuk_wfh - $batas_telat_wfh;
+
+                                            // Konversi ke menit
+                                            $telat_menit_wfh = floor($total_telat_wfh / 60);
+
+                                        }else {
+                                            $telat_menit_wfh = 0;
+                                        }
+                                    }
+
 
                                     $cuti_setuju = \App\Models\Submission::where('user_id', $user->id)
                                         ->where('type', 'cuti')
@@ -260,9 +299,9 @@
                                        <tr>
                                            <td>1</td>
                                            <td>{{ $tepat_waktu_wfo }}</td>
-                                           <td>{{ $telat_wfo }}</td>
+                                           <td>{{ $telat_menit }} Menit</td>
                                            <td>{{ $tepat_waktu_wfh }}</td>
-                                           <td>{{ $telat_wfh }}</td>
+                                           <td>{{ $telat_menit_wfh }} Menit</td>
                                            <td>{{ $cuti_setuju }}</td>
                                            <td>{{ $cuti_tolak }}</td>
                                            <td>

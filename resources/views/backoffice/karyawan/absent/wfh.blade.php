@@ -130,6 +130,7 @@
                                             <button type="button" class="btn btn-success btn-sm btn-block mt-2" data-toggle="modal"
                                                 data-target="#wfh-add" title="Tambah">
                                                 <h3>
+                                                    
                                                     @if ($absentToday)
                                                         @if ($absentToday->start && $absentToday->end)
                                                             <i class="fa fa-check"></i> Anda Sudah Presensi

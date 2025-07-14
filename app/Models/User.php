@@ -70,14 +70,34 @@ class User extends Authenticatable
     }
 
     // get count cuti per tahun
-    public static function countCutiPerTahun($userId,$tahun)
+    public static function countCutiPerTahun($userId, $tahun)
     {
-        return Submission::where('user_id', $userId)
+        $submissions = Submission::where('user_id', $userId)
             ->where('type', 'cuti')
             ->where('status', 'Disetujui')
             ->whereYear('start_date', $tahun)
-            ->sum('total_day');
+            ->get();
+
+        $totalHari = 0;
+
+        foreach ($submissions as $submission) {
+            $start = new \DateTime($submission->start_date);
+            $end = new \DateTime($submission->end_date);
+            $end = $end->modify('+1 day'); // supaya tanggal akhir ikut dihitung
+
+            $interval = new \DatePeriod($start, new \DateInterval('P1D'), $end);
+
+            foreach ($interval as $date) {
+                $day = $date->format('N'); // 6 = Sabtu, 7 = Minggu
+                if ($day < 6) {
+                    $totalHari++;
+                }
+            }
+        }
+
+        return $totalHari;
     }
+
 
     // public static function countCutiPerTahun($tahun)
     // {
